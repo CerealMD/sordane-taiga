@@ -27,7 +27,9 @@ const Users: React.FC = () => {
             },
           });
         //   console.log(response)
-          setData(response.data);
+        const copyArray = [...response.data]; 
+        copyArray.sort((a,b) => (a.roles[0] > b.roles[0]) ? 1 : ((b.roles[0] > a.roles[0]) ? -1 : 0))
+        setData(copyArray);
         } catch (err) {
           setError('Failed to fetch data');
         }

@@ -74,7 +74,9 @@ const Combobox: React.FC = () => {
                 };
                 setData2(userData);
             };
-            // console.log(data)
+            const copyArray = [...userData]; 
+            copyArray.sort((a,b) => (a.roles[0] > b.roles[0]) ? 1 : ((b.roles[0] > a.roles[0]) ? -1 : 0))
+            setData2(copyArray); //re-render
             
         }
         catch{
@@ -102,7 +104,7 @@ const Combobox: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {data2.map((item: any) => (
+        {data2.sort((a, b) => a.itemM?.roles > b.itemM?.roles ? 1 : -1).map((item: any) => (
            <tr key={item.id}>
            <td>{item?.username}</td>
            <td>{item?.full_name}</td>

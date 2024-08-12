@@ -31,7 +31,10 @@ const Dashboard: React.FC = () => {
         response.data.forEach(function(task: any) {
             task.url = 'https://tree.taiga.io/project/sordane-publishing/task/' + task.ref
           });
-        setData(response.data);
+          console.log(response.data)
+        const copyArray = [...response.data]; 
+        copyArray.sort((a,b) => (a.user_story_extra_info?.subject > b.user_story_extra_info?.subject) ? 1 : ((b.user_story_extra_info?.subject > a.user_story_extra_info?.subject) ? -1 : 0))
+        setData(copyArray);
     }
       } catch (err) {
         setError('Failed to fetch data');
