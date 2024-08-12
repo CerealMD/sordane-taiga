@@ -13,6 +13,9 @@ const NavBar: React.FC = () => {
           <Link to="/users" style={{ textDecoration: 'none', color: '#333' }}>Users</Link>
         </li>
         <li>
+          <Link to="/combobox" style={{ textDecoration: 'none', color: '#333' }}>Combobox</Link>
+        </li>
+        <li>
           <LogoutButton />
         </li>
       </ul>

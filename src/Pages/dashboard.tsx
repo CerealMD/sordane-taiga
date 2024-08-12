@@ -11,9 +11,9 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('taiga-token');
-      console.log(token)
+    //   console.log(token)
       if (token === undefined || token === null) {
-        console.log('not logged in')
+        // console.log('not logged in')
         navigate('/');
         return;
       }
@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
             "x-disable-pagination": 'True'
           },
         });
-        console.log(response)
+        // console.log(response)
         setData(response.data);
       } catch (err) {
         setError('Failed to fetch data');

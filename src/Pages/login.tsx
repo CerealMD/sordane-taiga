@@ -25,7 +25,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     axios.request(config)
         .then((response) => {
-        console.log('27',response.data);
+        // console.log('27',response.data);
         localStorage.setItem('taiga-token', response.data.auth_token);
         navigate('/dashboard');
         return response.data.token;
