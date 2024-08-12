@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import LogoutButton from '../componets/logout';
 import NavBar from '../componets/navTools';
 
 const Users: React.FC = () => {
+   
+      
     const [data, setData] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
     useEffect(() => {
+        
       const fetchData = async () => {
         const token = localStorage.getItem('taiga-token');
         // console.log(token)
@@ -60,6 +62,7 @@ const Users: React.FC = () => {
       </table>
     </div>
   );
+  
 };
 
 export default Users;

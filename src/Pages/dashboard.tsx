@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import LogoutButton from '../componets/logout';
 import NavBar from '../componets/navTools';
 
 const Dashboard: React.FC = () => {
@@ -9,7 +8,9 @@ const Dashboard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
+   
     const fetchData = async () => {
+        let response;
       const token = localStorage.getItem('taiga-token');
     //   console.log(token)
       if (token === undefined || token === null) {
@@ -18,7 +19,9 @@ const Dashboard: React.FC = () => {
         return;
       }
       try {
-        const response = await axios.get('https://api.taiga.io/api/v1/tasks?project=1575333', {
+        if(!response)
+            {
+        response = await axios.get('https://api.taiga.io/api/v1/tasks?project=1575333', {
           headers: {
             Authorization: `Bearer ${token}`,
             "x-disable-pagination": 'True'
@@ -26,13 +29,14 @@ const Dashboard: React.FC = () => {
         });
         // console.log(response)
         setData(response.data);
+    }
       } catch (err) {
         setError('Failed to fetch data');
       }
     };
 
     fetchData();
-  }, []);
+}, []);
 
   return (
     <div>

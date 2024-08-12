@@ -7,6 +7,7 @@ const LogoutButton: React.FC = () => {
   const handleLogout = () => {
     // Remove token from local storage
     localStorage.removeItem('taiga-token');
+    sessionStorage.clear();
     // Redirect to login page
     navigate('/');
   };
