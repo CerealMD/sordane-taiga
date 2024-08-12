@@ -28,6 +28,9 @@ const Dashboard: React.FC = () => {
           },
         });
         // console.log(response)
+        response.data.forEach(function(task: any) {
+            task.url = 'https://tree.taiga.io/project/sordane-publishing/task/' + task.ref
+          });
         setData(response.data);
     }
       } catch (err) {
@@ -52,7 +55,7 @@ const Dashboard: React.FC = () => {
             <th>Column</th>
             <th>Epic</th>
             <th>Due Date</th>
-            
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -64,6 +67,7 @@ const Dashboard: React.FC = () => {
               <td>{item?.status_extra_info?.name}</td>
               <td>{item?.user_story_extra_info?.subject}</td>
               <td>{item?.due_date}</td>
+              <td><a href={item?.url} target="_blank">&#8634;</a></td>
             </tr>
           ))}
         </tbody>

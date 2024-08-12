@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LogoutButton from './logout'; // Adjust the path if necessary
+import LogoutButton from './logoutbutton'; // Adjust the path if necessary
 
 const NavBar: React.FC = () => {
   return (
