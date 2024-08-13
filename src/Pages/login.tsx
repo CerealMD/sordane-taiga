@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from '../componets/logoutbutton';
 import RedirectButton from '../componets/redirect';
-import RefreshButton from '../componets/refresh';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -65,6 +64,7 @@ const Login: React.FC = () => {
         let activeUser = "" + response.data.full_name + " AKA " + response.data.username
         localStorage.setItem('taiga-token', response.data.auth_token);
         localStorage.setItem('activeUser', activeUser);
+        localStorage.setItem('refresh-token', response.data.refresh);
         navigate('/dashboard');
         return response.data.token;
         })

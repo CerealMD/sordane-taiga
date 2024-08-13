@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../componets/navTools';
+import RefreshFuntion from '../componets/refresh';
+import ErrorPopupProps from '../componets/refresh_popup';
 
 const Dashboard: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
   const navigate = useNavigate();
   useEffect(() => {
-   
+    console.log(localStorage.getItem('refresh-token'))
     const fetchData = async () => {
         let response;
       const token = localStorage.getItem('taiga-token');
@@ -36,16 +39,45 @@ const Dashboard: React.FC = () => {
         copyArray.sort((a,b) => (a.user_story_extra_info?.subject > b.user_story_extra_info?.subject) ? 1 : ((b.user_story_extra_info?.subject > a.user_story_extra_info?.subject) ? -1 : 0))
         setData(copyArray);
     }
-      } catch (err) {
+      } catch (err: any) {
+        console.log(err?.response.data)
+        if(err.response.data.detail == "Given token not valid for any token type"){
+          settokenInvalid(err.message);
+          // RefreshButton();
+        }
         setError('Failed to fetch data');
       }
     };
 
     fetchData();
+    
 }, []);
+const handleYes = async () => {
+  console.log('User clicked Yes');
+  await RefreshFuntion();
+  settokenInvalid(null);
+  navigate('/dashboard');
+  window.location.reload();
 
+};
+
+const handleNo = () => {
+  console.log('User clicked No');
+  localStorage.removeItem('taiga-token');
+  localStorage.removeItem('refresh-token');
+  localStorage.removeItem('activeUser');
+  sessionStorage.clear();
+  navigate('/');
+  window.location.reload();
+  settokenInvalid(null);
+
+};
   return (
     <div>
+      {tokenInvalid && (
+        <ErrorPopupProps message={tokenInvalid}  onYes={handleYes}
+        onNo={handleNo}/>
+      )}
       <h1>Dashboard</h1>
       <NavBar />
       {error && <p>{error}</p>}
