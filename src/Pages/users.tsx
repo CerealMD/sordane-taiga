@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../componets/navTools';
+import '../css/darkmode.css';
 
 const Users: React.FC = () => {
    
@@ -37,10 +38,17 @@ const Users: React.FC = () => {
   
       fetchData();
     }, []);
-  
+    const isPageDarkMode = () => {
+      let isDarkMode = localStorage.getItem('darkMode');
+        if(isDarkMode == 'true'){
+            return 'darkModePageOff onehundred'
+        } else{
+            return "darkModePageOn onehundred"
+        }
+    }
   return (
-    <div>
-        <h1>Users</h1>
+    <div className={isPageDarkMode()}>
+        <h1 className='headerStyle'>Users</h1>
       <NavBar />
       {error && <p>{error}</p>}
       <table>

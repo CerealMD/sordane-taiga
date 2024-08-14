@@ -1,0 +1,12 @@
+.notDueSoon{
+background-color: limegreen;
+}
+.DueSoon{
+background-color: yellow;
+}
+.Due{
+background-color: orange;
+}
+.late{
+    background-color: red;
+    }

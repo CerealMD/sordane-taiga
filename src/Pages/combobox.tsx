@@ -2,14 +2,18 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../componets/navTools';
+import '../css/darkmode.css';
+import ExpandableTable from '../componets/expandedtable';
 
 const Combobox: React.FC = () => {
     // let data = [{username: 'Example', count: 0}];
     const [error, setError] = useState<string | null>(null);
     const [data2, setData2] = useState<any[]>([]);
+    const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
     const navigate = useNavigate();
     let uData = JSON.stringify({});
     let tData = JSON.stringify({});
+    
     useEffect(() => {
     
         const fetchData = async () => {
@@ -65,17 +69,24 @@ const Combobox: React.FC = () => {
             // console.log(userData.length)
             for(let i=0; i< userData.length; i++) {
                 userData[i].count = 0;
+                userData[i].tasks = [];
                 // console.log(user)
                 for(let j=0; j< taskData.length; j++) {
 
                     if (userData[i].username === taskData[j]?.assigned_to_extra_info?.username && !taskData[j]?.is_closed){
                         userData[i].count++
+                        taskData[j].username =taskData[j].assigned_to_extra_info.username
+                        taskData[j].namez =taskData[j].status_extra_info?.name
+                        taskData[j].subject =taskData[j].user_story_extra_info?.subject
+                        userData[i].tasks.push(taskData[j]); 
+
                     }
                 };
                 setData2(userData);
             };
             const copyArray = [...userData]; 
             copyArray.sort((a,b) => (a.roles[0] > b.roles[0]) ? 1 : ((b.roles[0] > a.roles[0]) ? -1 : 0))
+            console.log(copyArray)
             setData2(copyArray); //re-render
             
         }
@@ -86,15 +97,38 @@ const Combobox: React.FC = () => {
     
     
 }, []);
+const isPageDarkMode = () => {
+  let isDarkMode = localStorage.getItem('darkMode');
+    if(isDarkMode == 'true'){
+        return 'darkModePageOff onehundred'
+    } else{
+        return "darkModePageOn onehundred"
+    }
+}
 
-      
- 
+const toggleRow = (username: string) => {
+  console.log(username)
+  if(expandedRowId !== username ){
+  setExpandedRowId(username);}
+  else{
+    setExpandedRowId(null)
+  }
+};
     return (
-        <div>
-        <h1>Users</h1>
+        <div className={isPageDarkMode()}>
+        <h1 className='headerStyle'>Combo Box</h1>
       <NavBar />
       {error && <p>{error}</p>}
-      <table>
+      <div>
+      <ExpandableTable data={data2} />
+      </div>
+    </div>
+  );
+}
+
+export default Combobox;
+
+{/* <table>
         <thead>
           <tr>
             <th>Username</th>
@@ -104,19 +138,49 @@ const Combobox: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {data2.sort((a, b) => a.itemM?.roles > b.itemM?.roles ? 1 : -1).map((item: any) => (
-           <tr key={item.id}>
-           <td>{item?.username}</td>
+
+        {data2.sort((a, b) => a.itemM?.roles > b.itemM?.roles ? 1 : -1).map(item => (
+          <React.Fragment key={item.id}>
+            <tr onClick={() => toggleRow(item.id)} style={{ cursor: 'pointer' }}>
+            <td>{item?.username}</td>
            <td>{item?.full_name}</td>
            <td>{item?.count}</td>
            <td>{item?.roles}</td>
-           </tr>
-          ))}
+            </tr>
+          {item.tasks &&expandedRowId === item.id && item.tasks.map((tasks: any) => (
+              <tr>
+              <td colSpan={4}>
+                <table style={{ width: '100%', marginTop: '10px', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr>
+                      <th>Assigned To</th>
+                      <th>Task</th>
+                      <th>Project</th>
+                      <th>Column</th>
+                      <th>Epic</th>
+                      <th>Due Date</th> 
+                       <th>Edit</th> 
+                   </tr>
+                  </thead>
+                  <tbody>
+                    
+                      <tr key={tasks.ref} style={{ backgroundColor: '#f9f9f9' }}>
+                      <td >{tasks?.assigned_to_extra_info?.username}</td>
+                      <td className={GetRowStyle(tasks?.due_date)}>{tasks?.subject}</td>
+                      <td>{tasks?.milestone_slug}</td>
+                      <td>{tasks?.status_extra_info?.name}</td>
+                      <td>{tasks?.user_story_extra_info?.subject}</td>
+                      <td className={GetRowStyle(tasks?.due_date)}>{tasks.due_date}</td> 
+                   <td><a href={tasks?.url} target="_blank">&#8634;</a></td> 
+                     </tr>
+                    
+                  </tbody>
+                </table>
+              </td>
+              </tr> 
+            ))}  
+          </React.Fragment>
+        ))}
+         
         </tbody>
-      </table>
-    </div>
-  );
-}
-
-export default Combobox;
-
+      </table> */}
