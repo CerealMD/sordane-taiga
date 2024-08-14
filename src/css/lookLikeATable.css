@@ -1,0 +1,67 @@
+
+.rowParent {
+    display: flex; /* Comment: Displays the container as a flex container */
+    justify-content: space-between; 
+}
+.rowParent:hover {
+    height: 70px;
+    border: 1px solid;
+}
+.rowParentTH {
+    display: flex; /* Comment: Displays the container as a flex container */
+    justify-content: space-between; 
+    margin-bottom: 1%;
+    border-bottom: 1px solid;
+}
+.rowOdd{
+    background-color: rgb(255, 255, 255);
+}
+.rowEven{
+    background-color: rgb(170, 170, 170);
+}
+.rowOdd2{
+    background-color: rgb(255, 255, 255);
+}
+.rowEven2{
+    background-color: rgb(170, 170, 170);
+}
+.desktop-only {
+    display: none; 
+}
+.mobile-only {
+    display: none; 
+}
+.hideExtra{
+    display: none;
+}
+.showExtra{
+    display: flex;
+}
+.rowselected{
+    background-color: aqua;
+}
+@media (min-width: 768px) {
+    .desktop-only {
+        display: block; 
+    }
+    .data{
+        width: 14.3%;
+        justify-content: left;
+    }
+    .rowParent {
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 767px) {
+    .mobile-only {
+        display: block; 
+    }
+    .data{
+        width: 50%;
+        justify-content: left;
+    }
+    .rowParent {
+        margin-top: 2%;
+    }
+}

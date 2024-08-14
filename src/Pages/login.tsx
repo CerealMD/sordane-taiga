@@ -66,7 +66,7 @@ const Login: React.FC = () => {
         localStorage.setItem('taiga-token', response.data.auth_token);
         localStorage.setItem('activeUser', activeUser);
         localStorage.setItem('refresh-token', response.data.refresh);
-        navigate('/dashboard');
+        navigate('/combobox');
         return response.data.token;
         })
         .catch((error) => {

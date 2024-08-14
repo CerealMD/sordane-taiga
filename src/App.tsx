@@ -11,7 +11,7 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" Component={Login} />
-        <Route path="/dashboard" Component={Dashboard} />
+        <Route path="/tasks" Component={Dashboard} />
         <Route path="/users" Component={Users} />
         <Route path="/combobox" Component={Combobox} />
         <Route path="*" Component={Four0Four} />

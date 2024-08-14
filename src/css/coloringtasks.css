@@ -1,12 +1,12 @@
 .notDueSoon{
-background-color: limegreen;
+background-color: #81f17e;
 }
 .DueSoon{
-background-color: yellow;
+background-color: #f5d76e;
 }
 .Due{
-background-color: orange;
+background-color: #ff540099;
 }
 .late{
-    background-color: red;
-    }
+    background-color: #fd95af;
+}

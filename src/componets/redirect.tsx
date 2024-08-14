@@ -5,7 +5,7 @@ const RedirectButton: React.FC = () => {
   const navigate = useNavigate();
 
   const handleredirect = () => {
-    navigate('/dashboard');
+    navigate('/combobox');
   };
 
   return (

@@ -31,17 +31,20 @@
     // console.log('report:', report)
     // console.log('differenceInDays:', differenceInHours)
   if(differenceInDays >= 3){
-    return 'notDueSoon';
+    return 'notDueSoon data';
   }
   else if (differenceInDays>1&& differenceInDays<3){
-    return 'DueSoon';
+    return 'DueSoon data';
   }
   else if (differenceInDays>0&& differenceInDays<1){
-    return 'Due';
+    return 'Due data';
   }
   else{
-    return 'late'
+    return 'late data' 
   }
+    }
+    else{
+      return 'data'
     }
     
   };

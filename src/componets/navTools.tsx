@@ -15,22 +15,19 @@ const NavBar: React.FC = () => {
       }
   }
   return (
-    <nav className={isPageDarkMode()} style={{ padding: '1rem', borderBottom: '1px solid #ccc', backgroundColor: '#f8f8f8' }}>
+    <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', backgroundColor: '#f8f8f8' }}>
       <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', gap: '1rem' }}>
         <li>
-          <Link to="/dashboard" style={{ textDecoration: 'none', color: '#333' }}>Dashboard</Link>
+          <Link to="/combobox" style={{ textDecoration: 'none', color: '#333' }}>Combobox</Link>
+        </li>
+        <li>
+          <Link to="/tasks" style={{ textDecoration: 'none', color: '#333' }}>Tasks</Link>
         </li>
         <li>
           <Link to="/users" style={{ textDecoration: 'none', color: '#333' }}>Users</Link>
         </li>
         <li>
-          <Link to="/combobox" style={{ textDecoration: 'none', color: '#333' }}>Combobox</Link>
-        </li>
-        <li>
           <LogoutButton />
-        </li>
-        <li>
-          <DarkModeButton />
         </li>
       </ul>
     </nav>

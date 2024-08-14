@@ -48,7 +48,7 @@ const Users: React.FC = () => {
         }
     }
   return (
-    <div className={isPageDarkMode()}>
+    <div >
         <h1 className='headerStyle'>Users</h1>
       <NavBar />
       {error && <p>{error}</p>}

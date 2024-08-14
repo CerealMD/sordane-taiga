@@ -13,6 +13,8 @@ const Combobox: React.FC = () => {
     const navigate = useNavigate();
     let uData = JSON.stringify({});
     let tData = JSON.stringify({});
+    const _ = require("lodash");
+  var order = ["Artist", "Sculpting", "Writing", "Manager"];
     
     useEffect(() => {
     
@@ -63,8 +65,8 @@ const Combobox: React.FC = () => {
         }
         if(tData){
         let taskData = JSON.parse(tData)
-        console.log(userData)
-        console.log(taskData)
+        // console.log(userData)
+        // console.log(taskData)
         try{
             // console.log(userData.length)
             for(let i=0; i< userData.length; i++) {
@@ -77,7 +79,7 @@ const Combobox: React.FC = () => {
                         userData[i].count++
                         taskData[j].username =taskData[j].assigned_to_extra_info.username
                         taskData[j].namez =taskData[j].status_extra_info?.name
-                        taskData[j].subject =taskData[j].user_story_extra_info?.subject
+                        taskData[j].storysubject =taskData[j].user_story_extra_info?.subject
                         taskData[j].url= 'https://tree.taiga.io/project/sordane-publishing/task/' + taskData[j].ref 
                         userData[i].tasks.push(taskData[j]); 
 
@@ -87,9 +89,13 @@ const Combobox: React.FC = () => {
             };
             const copyArray = [...userData]; 
             copyArray.sort((a,b) => (a.roles[0] > b.roles[0]) ? 1 : ((b.roles[0] > a.roles[0]) ? -1 : 0))
-            console.log(copyArray)
-            setData2(copyArray); //re-render
-            
+            // console.log(copyArray)
+            const roleSorted = _.sortBy(copyArray, (obj: { roles: string | any[]; }) => getRoleIndex(obj.roles));
+            const groupedByRole = _.groupBy(roleSorted, (obj: { roles: any; }) => _.find(obj.roles, (role: any) => order.includes(role)));
+            const sortedByIdWithinGroups = _.mapValues(groupedByRole, (group: any) => _.sortBy(group, 'count').reverse());
+            const finalSortedArray = _.flatten(_.values(sortedByIdWithinGroups));
+            // console.log(finalSortedArray)
+            setData2(finalSortedArray); 
         }
         catch{
             console.log('catch',data2)
@@ -98,26 +104,12 @@ const Combobox: React.FC = () => {
     
     
 }, []);
-const isPageDarkMode = () => {
-  let isDarkMode = localStorage.getItem('darkModeActive');
-  let isDarkMode2 = JSON.stringify("true");
-    if(isDarkMode == isDarkMode2){
-        return 'darkModePageOff onehundred'
-    } else{
-        return "darkModePageOn onehundred"
-    }
+function getRoleIndex(roles: string | any[]) {
+  return _.findIndex(order, (role: string) => roles.includes(role));
 }
 
-const toggleRow = (username: string) => {
-  console.log(username)
-  if(expandedRowId !== username ){
-  setExpandedRowId(username);}
-  else{
-    setExpandedRowId(null)
-  }
-};
     return (
-        <div className={isPageDarkMode()}>
+        <div >
         <h1 className='headerStyle'>Combo Box</h1>
       <NavBar />
       {error && <p>{error}</p>}
@@ -130,59 +122,3 @@ const toggleRow = (username: string) => {
 
 export default Combobox;
 
-{/* <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Full Name</th>
-            <th>Number of Tasks</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-
-        {data2.sort((a, b) => a.itemM?.roles > b.itemM?.roles ? 1 : -1).map(item => (
-          <React.Fragment key={item.id}>
-            <tr onClick={() => toggleRow(item.id)} style={{ cursor: 'pointer' }}>
-            <td>{item?.username}</td>
-           <td>{item?.full_name}</td>
-           <td>{item?.count}</td>
-           <td>{item?.roles}</td>
-            </tr>
-          {item.tasks &&expandedRowId === item.id && item.tasks.map((tasks: any) => (
-              <tr>
-              <td colSpan={4}>
-                <table style={{ width: '100%', marginTop: '10px', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
-                      <th>Assigned To</th>
-                      <th>Task</th>
-                      <th>Project</th>
-                      <th>Column</th>
-                      <th>Epic</th>
-                      <th>Due Date</th> 
-                       <th>Edit</th> 
-                   </tr>
-                  </thead>
-                  <tbody>
-                    
-                      <tr key={tasks.ref} style={{ backgroundColor: '#f9f9f9' }}>
-                      <td >{tasks?.assigned_to_extra_info?.username}</td>
-                      <td className={GetRowStyle(tasks?.due_date)}>{tasks?.subject}</td>
-                      <td>{tasks?.milestone_slug}</td>
-                      <td>{tasks?.status_extra_info?.name}</td>
-                      <td>{tasks?.user_story_extra_info?.subject}</td>
-                      <td className={GetRowStyle(tasks?.due_date)}>{tasks.due_date}</td> 
-                   <td><a href={tasks?.url} target="_blank">&#8634;</a></td> 
-                     </tr>
-                    
-                  </tbody>
-                </table>
-              </td>
-              </tr> 
-            ))}  
-          </React.Fragment>
-        ))}
-         
-        </tbody>
-      </table> */}
