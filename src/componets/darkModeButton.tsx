@@ -5,20 +5,25 @@ import { useSpinner } from './spinnerContext';
 
 const DarkModeButton: React.FC = () => {
     const { showSpinner, hideSpinner } = useSpinner();
+  const navigate = useNavigate();
+
   const handleDarkMode = () => {
     showSpinner();
-    let value = localStorage.getItem('darkMode');
-    if(value == 'false'){
-        localStorage.setItem('darkMode', 'true')
+    let value = localStorage.getItem('darkModeActive');
+    let darkValue = JSON.stringify('false')
+    if(value === darkValue){
+         localStorage.setItem('darkModeActive', JSON.stringify('true'))
     } else{
-        localStorage.setItem('darkMode', 'false')
+        localStorage.setItem('darkModeActive', JSON.stringify('false'))
     }
-    window.location.reload();
+    console.log(value)
+    navigate('/');
     hideSpinner();
   };
   const colorButton = () => {
-    let isDarkMode = localStorage.getItem('darkMode');
-    if(isDarkMode == 'true'){
+    let isDarkMode = localStorage.getItem('darkModeActive');
+    let darkValue = JSON.stringify('false')
+    if(isDarkMode === darkValue){
         return 'darkModeButtonOn'
     } else{
         return "darkModeButtonOff"

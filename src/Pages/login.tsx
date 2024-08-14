@@ -5,7 +5,7 @@ import LogoutButton from '../componets/logoutbutton';
 import RedirectButton from '../componets/redirect';
 
 const Login: React.FC = () => {
-  localStorage.setItem('darkMode', 'false');
+  // localStorage.setItem('darkModeActive', 'false');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);

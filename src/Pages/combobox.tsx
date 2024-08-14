@@ -98,8 +98,9 @@ const Combobox: React.FC = () => {
     
 }, []);
 const isPageDarkMode = () => {
-  let isDarkMode = localStorage.getItem('darkMode');
-    if(isDarkMode == 'true'){
+  let isDarkMode = localStorage.getItem('darkModeActive');
+  let isDarkMode2 = JSON.stringify("true");
+    if(isDarkMode == isDarkMode2){
         return 'darkModePageOff onehundred'
     } else{
         return "darkModePageOn onehundred"

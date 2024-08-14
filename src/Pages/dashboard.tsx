@@ -60,7 +60,7 @@ const handleYes = async () => {
   console.log('User clicked Yes');
   await RefreshFuntion();
   settokenInvalid(null);
-  navigate('/dashboard');
+  navigate('/');
   window.location.reload();
 
 };
@@ -77,11 +77,12 @@ const handleNo = () => {
 
 };
 const isPageDarkMode = () => {
-  let isDarkMode = localStorage.getItem('darkMode');
-    if(isDarkMode == 'true'){
-        return 'darkModePageOff onehundred'
+  let isDarkMode = localStorage.getItem('darkModeActive');
+  let isDarkMode2 = JSON.stringify("true");
+    if(isDarkMode === isDarkMode2){
+        return ('darkModePageOff onehundred')
     } else{
-        return "darkModePageOn onehundred"
+        return ('darkModePageOn onehundred')
     }
 }
   return (
