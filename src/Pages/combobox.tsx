@@ -78,6 +78,7 @@ const Combobox: React.FC = () => {
                         taskData[j].username =taskData[j].assigned_to_extra_info.username
                         taskData[j].namez =taskData[j].status_extra_info?.name
                         taskData[j].subject =taskData[j].user_story_extra_info?.subject
+                        taskData[j].url= 'https://tree.taiga.io/project/sordane-publishing/task/' + taskData[j].ref 
                         userData[i].tasks.push(taskData[j]); 
 
                     }
