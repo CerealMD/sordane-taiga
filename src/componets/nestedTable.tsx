@@ -31,28 +31,28 @@ if(details.length > 0){
 details.forEach(item => {
   // console.log(item.id)
   })
-  return (<div style={{ width: '100%', marginLeft: '2%', marginRight: '2%', paddingBottom: '10px' }}>
+  return (<div style={{ width: '96%', marginLeft: '2%', marginRight: '2%', paddingBottom: '10px' }}>
     <div>
       <div className='rowParentTH'>
-      <div className='data'>Assigned To</div>
-      <div className='data'>Task</div>
-      <div className='data'>Project</div>
-      <div className='data'>Column</div>
-      <div className='data'>Epic</div>
-      <div className='data'>Due Date</div>
-      <div className='data'>Edit</div>
+      <div className='data subData' style={{width:'13%', textAlign: 'center'}}>Assigned To</div>
+      <div className='data subData'>Task</div>
+      <div className='data subData' style={{width:'10%', textAlign: 'center'}}>Project</div>
+      <div className='data subData' style={{width:'10%', textAlign: 'center'}}>Column</div>
+      <div className='data subData'>Epic</div>
+      <div className='data subData' style={{width:'8%', textAlign: 'center'}}>Due Date</div>
+      <div className='data subData' style={{width:'2%', textAlign: 'center'}}>Edit</div>
       </div>
     </div>
     <div>
     {details.map((item, index)  => { 
     return <div key={item.ref} className={classNames('rowParent', getRowStyle(index))}>
-          <div className='data'>{item?.username}</div>
-          <div className={GetRowStyle(item.due_date)} >{item?.subject}</div>
-          <div className='data'>{item?.milestone_slug}</div>
-          <div className='data'>{item?.namez}</div>
-          <div className='data'>{item?.storysubject}</div>
-          <div className={GetRowStyle(item.due_date)}>{item?.due_date}</div>
-          <div className='data'><a href={item?.url} target="_blank">&#8634;</a></div>
+          <div className='data subData' style={{width:'13%', textAlign: 'center'}}><a href={item?.url} target="_blank">{item?.username}</a></div>
+          <div className={classNames(GetRowStyle(item.due_date), 'canClick', 'subData')} >{item?.subject}</div>
+          <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.milestone_slug}</div>
+          <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.namez}</div>
+          <div className='data subData'>{item?.storysubject}</div>
+          <div className={classNames(GetRowStyle(item.due_date), 'subData')} style={{width:'8%', textAlign: 'center'}} >{item?.due_date}</div>
+          <div className='data subData canClick'style={{width:'2%', textAlign: 'center'}}><a href={item?.url} target="_blank">&#8634;</a></div>
           </div>
         })}
           </div>

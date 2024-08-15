@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../componets/navTools';
 import '../css/darkmode.css';
 import '../css/lookLikeATable.css';
+import '../css/cssIcons.css';
 import ExpandableTable from '../componets/expandedtable';
 import RefreshFuntion from '../componets/refresh';
 import ExpandedtableMobile from '../componets/expandedtableMobile';
@@ -12,7 +13,10 @@ import ErrorPopupProps from '../componets/refresh_popup';
 const Combobox: React.FC = () => {
     // let data = [{username: 'Example', count: 0}];
     const [error, setError] = useState<string | null>(null);
-    const [data2, setData2] = useState<any[]>([]);
+    const [artistData, setartistData] = useState<any[]>([]);
+    const [scuplterData, setsculpterData] = useState<any[]>([]);
+    const [writtingData, setwrittingData] = useState<any[]>([]);
+    const [managementData, setmanagementData] = useState<any[]>([]);
   const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
     const navigate = useNavigate();
     let uData = JSON.stringify({});
@@ -23,7 +27,7 @@ const Combobox: React.FC = () => {
     useEffect(() => {
     
         const fetchData = async () => {
-            // console.log(data2)
+            // console.log(artistData)
             const token = localStorage.getItem('taiga-token');
             // console.log(token)
             if (token === undefined || token === null) {
@@ -64,7 +68,7 @@ const Combobox: React.FC = () => {
         let userData = JSON.parse(uData)
         // console.log('65',data)
         // console.log('66',userData)
-        if(data2 && data2.length >= userData.length){
+        if(artistData && artistData.length >= userData.length){
             return
         }
         if(tData){
@@ -89,7 +93,7 @@ const Combobox: React.FC = () => {
 
                     }
                 };
-                setData2(userData);
+                setartistData(userData);
             };
             const copyArray = [...userData]; 
             copyArray.sort((a,b) => (a.roles[0] > b.roles[0]) ? 1 : ((b.roles[0] > a.roles[0]) ? -1 : 0))
@@ -98,11 +102,12 @@ const Combobox: React.FC = () => {
             const groupedByRole = _.groupBy(roleSorted, (obj: { roles: any; }) => _.find(obj.roles, (role: any) => order.includes(role)));
             const sortedByIdWithinGroups = _.mapValues(groupedByRole, (group: any) => _.sortBy(group, 'count').reverse());
             const finalSortedArray = _.flatten(_.values(sortedByIdWithinGroups));
+            seperateData(finalSortedArray);
             // console.log(finalSortedArray)
-            setData2(finalSortedArray); 
+            // setartistData(finalSortedArray); 
         }
         catch{
-            console.log('catch',data2)
+            console.log('catch',artistData)
         }}}
     }
     
@@ -131,7 +136,39 @@ const handleNo = () => {
 function getRoleIndex(roles: string | any[]) {
   return _.findIndex(order, (role: string) => roles.includes(role));
 }
+function seperateData(data: any) {
+  // Initialize arrays for 4 ranges
+  const Artist: any[] = [];
+  const Sculpting: any[] = [];
+  const Writing: any[] = [];
+  const Manager: any[] = [];
 
+  const roles = [
+    { array: Artist, value: 'Artist' },
+    { array: Sculpting, value: 'Sculpting'  },
+    { array: Writing, value: 'Writing'  },
+    { array: Manager, value: 'Manager'  },
+  ];
+
+  // Separate data into ranges
+  data.forEach((item: { roles: { array: any[]; }[]; }) => {
+    roles.forEach((role) => {
+      console.log('here', role.value)
+      console.log('here', item)
+      console.log('here', item?.roles[0])
+      let test = JSON.stringify(item?.roles[0])
+      let check = JSON.stringify(role.value)
+      if (check == test) {
+        role.array.push(item);
+        console.log('here', role.array)
+      }
+    });
+  });
+  setartistData(Artist)
+  setsculpterData(Sculpting)
+  setwrittingData(Writing)
+  setmanagementData(Manager)
+}
     return (
         <div >
                 {tokenInvalid && (
@@ -143,10 +180,16 @@ function getRoleIndex(roles: string | any[]) {
       {error && <p>{error}</p>}
       <div>
       <div className='desktop-only'>
-      <ExpandableTable data={data2} />
+      <ExpandableTable data={artistData} />
+      <ExpandableTable data={scuplterData} />
+      <ExpandableTable data={writtingData} />
+      <ExpandableTable data={managementData} />
       </div>
       <div className='mobile-only'>
-        <ExpandedtableMobile data={data2}/>
+        <ExpandedtableMobile data={artistData}/>
+        <ExpandedtableMobile data={scuplterData} />
+        <ExpandedtableMobile data={writtingData} />
+        <ExpandedtableMobile data={managementData} />
       </div>
       </div>
     </div>
@@ -154,4 +197,6 @@ function getRoleIndex(roles: string | any[]) {
 }
 
 export default Combobox;
+
+
 

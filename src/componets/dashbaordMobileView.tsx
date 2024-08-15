@@ -22,15 +22,15 @@ interface dashboardMobileView {
  return <div style={{ width: '80%', marginLeft: '10%', paddingBottom: '10px' }}>
           <div>
             <div className='rowParent rowParentTH'>
-            <div className='data'>Assigned To</div>
-            <div className='data'>Task</div>
+            <div style={{ width: '50%', textAlign: 'center' }}>Assigned To</div>
+            <div style={{ width: '50%', textAlign: 'center' }}>Task</div>
             </div>
           </div>
           <div>
           {data.map((item)  => { 
           return <a key={item.id} className='rowParent '>
-            <div className={GetRowStyle(item.due_date)}>{item?.username}</div>
-              <div className={GetRowStyle(item.due_date)} >{item?.subject}</div>
+            <div style={{ width: '50%', textAlign: 'center' }} className={GetRowStyle(item.due_date)}>{item?.username}</div>
+              <div style={{ width: '50%', textAlign: 'center' }} className={GetRowStyle(item.due_date)} >{item?.subject}</div>
             </a>;
         })}
           </div>
