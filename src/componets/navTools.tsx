@@ -17,15 +17,14 @@ const NavBar: React.FC = () => {
   return (
     <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc', backgroundColor: '#f8f8f8' }}>
       <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', gap: '1rem' }}>
+        <div style={{width: '78%', marginLeft: '10%', display: 'block ruby'}}>
         <li>
           <Link to="/combobox" style={{ textDecoration: 'none', color: '#333' }}>Combobox</Link>
         </li>
-        <li>
+        <li style={{marginLeft: '10px'}}>
           <Link to="/tasks" style={{ textDecoration: 'none', color: '#333' }}>Tasks</Link>
         </li>
-        <li>
-          <Link to="/users" style={{ textDecoration: 'none', color: '#333' }}>Users</Link>
-        </li>
+        </div>
         <li>
           <LogoutButton />
         </li>

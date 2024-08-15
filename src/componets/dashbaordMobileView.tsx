@@ -19,7 +19,7 @@ interface dashboardMobileView {
     data: Detail[];
 }
  const dashboardMobile: React.FC<dashboardMobileView> = ({ data }) => {
- return <div style={{ width: '80%', marginLeft: '10%', padding: '10px' }}>
+ return <div style={{ width: '80%', marginLeft: '10%', paddingBottom: '10px' }}>
           <div>
             <div className='rowParent rowParentTH'>
             <div className='data'>Assigned To</div>

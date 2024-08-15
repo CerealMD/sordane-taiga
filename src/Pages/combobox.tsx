@@ -3,13 +3,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../componets/navTools';
 import '../css/darkmode.css';
+import '../css/lookLikeATable.css';
 import ExpandableTable from '../componets/expandedtable';
+import RefreshFuntion from '../componets/refresh';
+import ExpandedtableMobile from '../componets/expandedtableMobile';
+import ErrorPopupProps from '../componets/refresh_popup';
 
 const Combobox: React.FC = () => {
     // let data = [{username: 'Example', count: 0}];
     const [error, setError] = useState<string | null>(null);
     const [data2, setData2] = useState<any[]>([]);
-    const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
+  const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
     const navigate = useNavigate();
     let uData = JSON.stringify({});
     let tData = JSON.stringify({});
@@ -104,17 +108,46 @@ const Combobox: React.FC = () => {
     
     
 }, []);
+const handleYes = async () => {
+  console.log('User clicked Yes');
+  await RefreshFuntion();
+  settokenInvalid(null);
+  navigate('/');
+  window.location.reload();
+
+};
+
+const handleNo = () => {
+  console.log('User clicked No');
+  localStorage.removeItem('taiga-token');
+  localStorage.removeItem('refresh-token');
+  localStorage.removeItem('activeUser');
+  sessionStorage.clear();
+  navigate('/');
+  window.location.reload();
+  settokenInvalid(null);
+
+};
 function getRoleIndex(roles: string | any[]) {
   return _.findIndex(order, (role: string) => roles.includes(role));
 }
 
     return (
         <div >
+                {tokenInvalid && (
+        <ErrorPopupProps message={tokenInvalid}  onYes={handleYes}
+        onNo={handleNo}/>
+      )}
         <h1 className='headerStyle'>Combo Box</h1>
       <NavBar />
       {error && <p>{error}</p>}
       <div>
+      <div className='desktop-only'>
       <ExpandableTable data={data2} />
+      </div>
+      <div className='mobile-only'>
+        <ExpandedtableMobile data={data2}/>
+      </div>
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ const getRowStyle = (index: number) => {
     return index % 2 === 0 ? 'rowEven' : 'rowOdd';
   };
  const dashboardDesktop: React.FC<dashboardDesktopView> = ({ data }) => {
- return <div style={{ width: '80%', marginLeft: '10%', padding: '10px' }}>
+ return <div style={{ width: '80%', marginLeft: '10%', paddingBottom: '10px' }}>
           <div>
             <div className='rowParentTH'>
             <div className='data'>Assigned To</div>

@@ -31,7 +31,7 @@ if(details.length > 0){
 details.forEach(item => {
   // console.log(item.id)
   })
-  return (<div style={{ width: '100%', marginLeft: '2%', marginRight: '2%', padding: '10px' }}>
+  return (<div style={{ width: '100%', marginLeft: '2%', marginRight: '2%', paddingBottom: '10px' }}>
     <div>
       <div className='rowParentTH'>
       <div className='data'>Assigned To</div>
@@ -67,29 +67,3 @@ details.forEach(item => {
 export default NestedTable;
 
 
-{/* <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-<thead>
-  <tr>
-  <th>Assigned To</th>
-                <th>Task</th>
-                <th>Project</th>
-                <th>Column</th>
-                <th>Epic</th>
-                <th>Due Date</th> 
-                 <th>Edit</th> 
-  </tr>
-</thead>
-<tbody>
-  {details.map(tasks => (
-    <tr key={tasks.id}>
-              <td >{tasks.username}</td>
-                <td className={GetRowStyle(tasks.due_date)}>{tasks.subject}</td>
-                <td>{tasks.milestone_slug}</td>
-                <td>{tasks.namez}</td>
-                <td>{tasks.storysubject}</td>
-                <td className={GetRowStyle(tasks.due_date)}>{tasks.due_date}</td> 
-             <td><a href={tasks.url} target="_blank">&#8634;</a></td> 
-    </tr>
-  ))}
-</tbody>
-</table> */}
