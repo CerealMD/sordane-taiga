@@ -1,4 +1,8 @@
 
+a{
+    text-decoration: none;
+      color: inherit;
+}
 .rowParent {
     display: flex; /* Comment: Displays the container as a flex container */
     /* justify-content: space-between;  */
@@ -8,7 +12,7 @@
 }
 .rowParentTH {
     display: flex; /* Comment: Displays the container as a flex container */
-    /* justify-content: space-between;  */
+    background: aliceblue;
     margin-bottom: 1%;
     border-bottom: 1px solid;
 }
@@ -62,7 +66,7 @@
 @media (min-width: 1150px){
 .bigExpandCollapse{
     display: flex;
-    width: 80px;
+    width: 90px;
     margin-bottom: 3px;
 }
 }
@@ -74,6 +78,7 @@
         width: 25%;
         justify-content: left;
         text-align: center;
+        padding: 2px 10px
     }
     .subData{
         padding: 3px 10px;

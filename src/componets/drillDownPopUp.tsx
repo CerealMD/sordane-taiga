@@ -8,7 +8,7 @@ interface DrillDownPopUpProps {
 }
 
 const DrillDownPopUp: React.FC<DrillDownPopUpProps> = ({ data, onMessage, onClose }) => {
-  console.log(data)
+  // console.log(data)
     return (
     <div className="overlay">
       <div className="popup">

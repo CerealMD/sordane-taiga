@@ -23,7 +23,8 @@ interface NestedTableProps {
   details: Detail[];
 }
 const NestedTable: React.FC<NestedTableProps> = ({ details }) => {
-  const [openPopUpToken, setopenPopUpToken] = useState<string | null>(null);
+  const [openPopUpToken, setopenPopUpToken] = useState<object | null>(null);
+  const editIcon = require('../outSideContent/edit-icon.png')
 
   const getRowStyle = (index: number) => {
     return index % 2 === 0 ? 'rowEven2' : 'rowOdd2';
@@ -35,8 +36,8 @@ details.forEach(item => {
   // console.log(item.id)
   })
   const openPopUp = (item: Detail) => {
-    console.log(item)
-    setopenPopUpToken('item');
+    // console.log(item)
+    setopenPopUpToken(item);
     
   };
   const handleMessage = async () => {
@@ -60,15 +61,19 @@ details.forEach(item => {
     </div>
     <div>
     {details.map((item, index)  => { 
-    return <div key={item.ref} className={classNames('rowParent', getRowStyle(index))}>
-       {openPopUpToken && (
-                  <DrillDownPopUp data={item}  onMessage={handleMessage}
-                  onClose={handleClose}/>
-                )}
+    return <div key={index}>
+    <div  className={classNames('rowParent', getRowStyle(index))}>
           <div className={classNames('dataComboBox', GetRowStyle(item.due_date))} >{item?.subject}</div>
           <div className='data dataComboBox'>{item?.milestone_slug}</div>
           <div className={classNames('dataComboBox', GetRowStyle(item.due_date))}>{item?.due_date}</div>
-          <div className='data' style={{width: '10%', textAlign: 'center', cursor: 'pointer'}}><a /*href={item?.url}*/ onClick={() => openPopUp(item)} target="_blank">&#8634;</a></div>
+          <div className='data' style={{width: '10%', textAlign: 'center', cursor: 'pointer'}}><a onClick={() => openPopUp(item)} ><img alt="edit icon" style={{ width: 15 }} src={String(editIcon)}></img></a></div>
+          </div>
+          <div>
+          {openPopUpToken && openPopUpToken == item && (
+                  <DrillDownPopUp data={item}  onMessage={handleMessage}
+                  onClose={handleClose}/>
+                )}
+            </div>
           </div>
         })}
     </div>

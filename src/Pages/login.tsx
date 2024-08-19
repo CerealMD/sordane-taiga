@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from '../componets/logoutbutton';
 import RedirectButton from '../componets/redirect';
+import ReloadScreen from '../componets/reloadScreen';
+import LoginContainer from '../componets/loginContainer';
+import LoginContainerMobile from '../componets/loginContainerMobile';
+import ReloadScreenMobile from '../componets/reloadScreenMobile';
 
 const Login: React.FC = () => {
   // localStorage.setItem('darkModeActive', 'false');
@@ -15,80 +19,25 @@ const Login: React.FC = () => {
   console.log(token)
   console.log(activeUser)
   let loginOptions;
+  let loginOptionsMobile;
   if(!token || !activeUser){
-    loginOptions = <>
-                <div>
-                  <label>Username:</label>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div>
-                  <label>Password:</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
-                  </div>
-                  <button type="submit">Login</button></>;    
+    loginOptions = <LoginContainer/>
+    loginOptionsMobile = <LoginContainerMobile/>
   } 
   else 
   {      
-   loginOptions = <>
-    <div>
-      <label> Welcome {activeUser} </label>
-      <RedirectButton />
-      <LogoutButton />
-    </div>
-  </>;
+   loginOptions = <ReloadScreen/>
+   loginOptionsMobile = <ReloadScreenMobile/>
   }
-  const handleLogin = async (e: React.FormEvent) => {
-    let data = JSON.stringify({
-        "password": password,
-        "type": "normal",
-        "username": username
-      });
-    let config = {
-        method: 'post',
-        maxBodyLength: Infinity,
-        url: 'https://api.taiga.io/api/v1/auth',
-        headers: { 
-          'Content-Type': 'application/json'
-        },
-        data : data
-      };
-    e.preventDefault();
-    axios.request(config)
-        .then((response) => {
-        console.log('27',response.data);
-        let activeUser = "" + response.data.full_name + " AKA " + response.data.username
-        localStorage.setItem('taiga-token', response.data.auth_token);
-        localStorage.setItem('activeUser', activeUser);
-        localStorage.setItem('refresh-token', response.data.refresh);
-        navigate('/combobox');
-        return response.data.token;
-        })
-        .catch((error) => {
-        console.log(JSON.parse(JSON.stringify(error)));
-        if(error.message){
-          setError(error.message);
-        }
-        else{
-          setError('Login failed. Please check your credentials.');
-        }
-        return ;
-        });
-  };
 
-  return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
+  return (<div style={{height: '100%'}}>
+    <div className='desktop-only'>
       {loginOptions}
-      </form>
-      {error && <p>{error}</p>}
     </div>
+    <div className='mobile-only'>
+    {loginOptionsMobile}
+  </div>
+  </div>
   );
 };
 

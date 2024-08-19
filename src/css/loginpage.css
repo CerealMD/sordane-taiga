@@ -1,0 +1,111 @@
+#grad1 {
+    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(255, 255, 255));
+  }
+  .mainMobile{
+    width: 100%;
+    text-align: center;
+    height: 100vh;
+    background-image: radial-gradient(circle, #a1fbe2, #6ee5f9, #003e80)
+  }
+  .leftMain{
+    width: 50%;
+    float: left;
+    text-align: center;
+    height: 100vh;
+    background: linear-gradient(to right, transparent, #accece), url('../outSideContent/bgimage.jpg');
+    /* background-image: url('../outSideContent/bgimage.jpg'); */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+  .SideText{
+    margin-top: 40vh;
+  }
+  .SideTextMobile{
+    padding-top: 30vh;
+  }
+  .rightMain{
+    width: 50%;
+    float: right;
+    text-align: center;
+    height: 100vh;
+  }
+  .textBox{
+    border-radius: 20px;
+  background-color: #accece;
+  width: 20vw;
+  text-align: center;
+  padding: 10px;
+  }
+  .button {
+    margin-top: 5vh;
+    width: 20vw;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #3bb8d8;
+    color: #FFFFFF;
+    font-size: 28px;
+    padding: 10px;
+    transition: all 0.5s;
+    cursor: pointer;
+  }
+  
+  .button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .button:hover span {
+    padding-right: 25px;
+  }
+  
+  .button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+  .desktop-only {
+    display: none; 
+    height: '100%'
+}
+.mobile-only {
+    display: none; 
+    height: '100%'
+}
+@media (min-width: 768px) {
+  .desktop-only {
+      display: block; 
+      height: '100%'
+  }
+}
+
+@media (max-width: 767px) {
+  .mobile-only {
+      display: block; 
+      height: '100%'
+  }
+}
+.fakeH1{
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+}
+.fakeH3{
+  display: block;
+  font-size: 1.17em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}

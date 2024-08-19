@@ -24,6 +24,8 @@ const getRowStyle = (index: number) => {
     return index % 2 === 0 ? 'rowEven' : 'rowOdd';
   };
  const dashboardDesktop: React.FC<dashboardDesktopView> = ({ data }) => {
+  const editIcon = require('../outSideContent/edit-icon.png')
+
  return <div style={{ width: '80%', marginLeft: '10%', paddingBottom: '10px' }}>
           <div>
             <div className='rowParentTH'>
@@ -45,7 +47,7 @@ const getRowStyle = (index: number) => {
               <div className='data'>{item?.namez}</div>
               <div className='data'>{item?.storysubject}</div>
               <div className={GetRowStyle(item.due_date)}>{item?.due_date}</div>
-              <div className='data'><a href={item?.url} target="_blank">&#8634;</a></div>
+              <div className='data'><a href={item?.url} target="_blank"><img alt="edit icon" style={{ width: 15 }} src={String(editIcon)}></img></a></div>
             </div>;
         })}
           </div>

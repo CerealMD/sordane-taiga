@@ -20,6 +20,7 @@ const DataTable: React.FC = () => {
         const response = await axios.get('https://api.example.com/data');
         setData(response.data);
       } catch (err) {
+        console.log(err)
         setError('Failed to fetch data');
       } finally {
         setLoading(false);

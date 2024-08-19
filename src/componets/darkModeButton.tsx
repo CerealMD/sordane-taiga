@@ -16,7 +16,7 @@ const DarkModeButton: React.FC = () => {
     } else{
         localStorage.setItem('darkModeActive', JSON.stringify('false'))
     }
-    console.log(value)
+    // console.log(value)
     navigate('/');
     hideSpinner();
   };

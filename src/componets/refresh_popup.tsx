@@ -8,7 +8,7 @@ interface ErrorPopupProps {
 }
 
 const ErrorPopup: React.FC<ErrorPopupProps> = ({ message, onYes, onNo }) => {
-  console.log('do you see me?')
+  // console.log('do you see me?')
     return (
     <div className="overlay">
       <div className="popup">

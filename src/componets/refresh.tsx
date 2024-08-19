@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios'
 
 async function RefreshFuntion() {
@@ -17,7 +16,7 @@ async function RefreshFuntion() {
       },
       data: data
     };
-    console.log(config)
+    // console.log(config)
     await axios.request(config)
       .then((response: { data: any; }) => {
         // console.log(JSON.stringify(response.data));

@@ -47,7 +47,7 @@ const ExpandedtableMobile: React.FC<ExpandableTableProps> = ({ data }) => {
     if (
       expandedRowId == id
     ){
-      console.log('yes')
+      // console.log('yes')
       return 'rowselected'
     }
     else{
@@ -65,7 +65,7 @@ const ExpandedtableMobile: React.FC<ExpandableTableProps> = ({ data }) => {
     }
   };
   const showAllExtra = (index: number) => {
-    console.log(expandedRowId)
+    // console.log(expandedRowId)
     if (
       expandedRowId == null || expandedRowId > 0
     ){

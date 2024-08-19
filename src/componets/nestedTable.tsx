@@ -1,7 +1,10 @@
 // src/components/NestedTable.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import GetRowStyle from '../componets/getRowStyle';
 import classNames from 'classnames';
+import ComboBoxPopUp from './comboBoxPopUp';
+import { useSpinner } from './spinnerContext';
+import axios from 'axios';
 
 interface Detail {
     assigned_to_extra_info: [];
@@ -22,10 +25,29 @@ interface NestedTableProps {
   details: Detail[];
 }
 const NestedTable: React.FC<NestedTableProps> = ({ details }) => {
+  const [openPopUpToken, setopenPopUpToken] = useState<object | null>(null);
+
+  const editIcon = require('../outSideContent/edit-icon.png')
   const getRowStyle = (index: number) => {
     return index % 2 === 0 ? 'rowEven2' : 'rowOdd2';
   };
 
+  const OpenPopUp = (item: Detail) => {
+    // console.log(item)
+
+    setopenPopUpToken(item);
+    
+  };
+  const handleMessage = async () => {
+
+    setopenPopUpToken(null);
+  
+  };
+  
+  const handleClose = () => {
+
+    setopenPopUpToken(null);
+  };
 if(details.length > 0){
   // console.log(details)
 details.forEach(item => {
@@ -45,14 +67,22 @@ details.forEach(item => {
     </div>
     <div>
     {details.map((item, index)  => { 
-    return <div key={item.ref} className={classNames('rowParent', getRowStyle(index))}>
-          <div className='data subData' style={{width:'13%', textAlign: 'center'}}><a href={item?.url} target="_blank">{item?.username}</a></div>
-          <div className={classNames(GetRowStyle(item.due_date), 'canClick', 'subData')} >{item?.subject}</div>
+    return <div key={item.ref}>
+      <div  className={classNames('rowParent', getRowStyle(index))}>
+          <div className='data subData' style={{width:'13%', textAlign: 'center'}}>{item?.username}</div>
+          <div className={classNames(GetRowStyle(item.due_date), 'canClick', 'subData')} ><a href={item?.url} target="_blank">{item?.subject}</a></div>
           <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.milestone_slug}</div>
           <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.namez}</div>
           <div className='data subData'>{item?.storysubject}</div>
           <div className={classNames(GetRowStyle(item.due_date), 'subData')} style={{width:'8%', textAlign: 'center'}} >{item?.due_date}</div>
-          <div className='data subData canClick'style={{width:'2%', textAlign: 'center'}}><a href={item?.url} target="_blank">&#8634;</a></div>
+          <div className='data subData canClick'style={{width:'2%', textAlign: 'center'}} onClick={() => OpenPopUp(item)}> <img alt="edit icon" style={{ width: 15 }} src={String(editIcon)}></img> </div>
+          </div>
+          <div>
+          {openPopUpToken && openPopUpToken == item && (
+                  <ComboBoxPopUp data={item}  onMessage={handleMessage}
+                  onClose={handleClose}/>
+                )}
+          </div>
           </div>
         })}
           </div>

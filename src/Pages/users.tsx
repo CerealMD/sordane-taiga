@@ -42,7 +42,7 @@ const Users: React.FC = () => {
       fetchData();
     }, []);
     const handleYes = async () => {
-      console.log('User clicked Yes');
+      // console.log('User clicked Yes');
       await RefreshFuntion();
       settokenInvalid(null);
       navigate('/');
@@ -51,7 +51,7 @@ const Users: React.FC = () => {
     };
     
     const handleNo = () => {
-      console.log('User clicked No');
+      // console.log('User clicked No');
       localStorage.removeItem('taiga-token');
       localStorage.removeItem('refresh-token');
       localStorage.removeItem('activeUser');

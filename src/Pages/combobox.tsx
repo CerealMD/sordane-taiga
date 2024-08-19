@@ -9,6 +9,7 @@ import ExpandableTable from '../componets/expandedtable';
 import RefreshFuntion from '../componets/refresh';
 import ExpandedtableMobile from '../componets/expandedtableMobile';
 import ErrorPopupProps from '../componets/refresh_popup';
+import { useSpinner } from '../componets/spinnerContext';
 
 const Combobox: React.FC = () => {
     // let data = [{username: 'Example', count: 0}];
@@ -18,6 +19,8 @@ const Combobox: React.FC = () => {
     const [writtingData, setwrittingData] = useState<any[]>([]);
     const [managementData, setmanagementData] = useState<any[]>([]);
   const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
+  const { showSpinner, hideSpinner } = useSpinner();
+  const [response, setResponse] = useState<object | null>(null);
     const navigate = useNavigate();
     let uData = JSON.stringify({});
     let tData = JSON.stringify({});
@@ -25,6 +28,39 @@ const Combobox: React.FC = () => {
   var order = ["Artist", "Sculpting", "Writing", "Manager"];
     
     useEffect(() => {
+
+    //     // Define async function inside useEffect
+    //     const fetchData2 = async () => {
+    //       const token = localStorage.getItem('taiga-token');
+    // let counter =0
+    //       const config = {
+    //         method: 'get',
+    //         maxBodyLength: Infinity,
+    //         url: 'https://api.taiga.io/api/v1/task-statuses?project=1575333',
+    //         headers: { 
+    //           'Authorization': `Bearer ${token}`, 
+    //           'Content-Type': 'application/json'
+    //         }
+    //       };
+    // if(counter<1){
+    //     counter ++
+    //       try {
+    //         console.log('data')
+    //         showSpinner();
+    //         const response = await axios.request(config);
+    //         localStorage.setItem('task-columns', response.data);
+    //         console.log(response.data)
+    //       } catch (error) {
+    //         setError('An error occurred while fetching data.');
+    //         console.error(error);
+    //       } finally {
+    //         hideSpinner();
+    //       }}
+    //     };
+    
+    //     // Fetch data when component mounts
+    //     fetchData2();
+
     
         const fetchData = async () => {
             // console.log(artistData)
@@ -100,7 +136,7 @@ const Combobox: React.FC = () => {
             // console.log(copyArray)
             const roleSorted = _.sortBy(copyArray, (obj: { roles: string | any[]; }) => getRoleIndex(obj.roles));
             const groupedByRole = _.groupBy(roleSorted, (obj: { roles: any; }) => _.find(obj.roles, (role: any) => order.includes(role)));
-            const sortedByIdWithinGroups = _.mapValues(groupedByRole, (group: any) => _.sortBy(group, 'count').reverse());
+            const sortedByIdWithinGroups = _.mapValues(groupedByRole, (group: any) => _.sortBy(group, 'count'));
             const finalSortedArray = _.flatten(_.values(sortedByIdWithinGroups));
             seperateData(finalSortedArray);
             // console.log(finalSortedArray)
@@ -114,7 +150,7 @@ const Combobox: React.FC = () => {
     
 }, []);
 const handleYes = async () => {
-  console.log('User clicked Yes');
+  // console.log('User clicked Yes');
   await RefreshFuntion();
   settokenInvalid(null);
   navigate('/');
@@ -123,7 +159,7 @@ const handleYes = async () => {
 };
 
 const handleNo = () => {
-  console.log('User clicked No');
+  // console.log('User clicked No');
   localStorage.removeItem('taiga-token');
   localStorage.removeItem('refresh-token');
   localStorage.removeItem('activeUser');
@@ -153,14 +189,14 @@ function seperateData(data: any) {
   // Separate data into ranges
   data.forEach((item: { roles: { array: any[]; }[]; }) => {
     roles.forEach((role) => {
-      console.log('here', role.value)
-      console.log('here', item)
-      console.log('here', item?.roles[0])
+      // console.log('here', role.value)
+      // console.log('here', item)
+      // console.log('here', item?.roles[0])
       let test = JSON.stringify(item?.roles[0])
       let check = JSON.stringify(role.value)
       if (check == test) {
         role.array.push(item);
-        console.log('here', role.array)
+        // console.log('here', role.array)
       }
     });
   });

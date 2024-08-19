@@ -12,6 +12,12 @@ import '../css/lookLikeATable.css';
 
 const Dashboard: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
+  const [patheonsData, setpatheons] = useState<any[]>([]);
+  const [novelsData, setnovelsData] = useState<any[]>([]);
+  const [bigBadEvilGuyData, setbigBadEvilGuyData] = useState<any[]>([]);
+  const [skiesAblazeData, setskiesAblazeData] = useState<any[]>([]);
+  const [moonsoonData, setmoonsoonData] = useState<any[]>([]);
+  const [sordaneStoriesData, setsordaneStoriesData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
   const _ = require("lodash");
@@ -43,7 +49,7 @@ const Dashboard: React.FC = () => {
             task.namez =task?.status_extra_info?.name
             task.storysubject =task.user_story_extra_info?.subject
           });
-          console.log(response.data)
+          // console.log(response.data)
           
         const copyArray = [...response.data]; 
         copyArray.sort((a,b) => (a.user_story_extra_info?.subject > b.user_story_extra_info?.subject) ? 1 : ((b.user_story_extra_info?.subject > a.user_story_extra_info?.subject) ? -1 : 0))
@@ -51,7 +57,7 @@ const Dashboard: React.FC = () => {
         const groupedByProject = _.groupBy(projectSorted, (obj: { subject: any; }) => _.groupBy(obj.subject));
         const sortedByIdWithinGroups = _.mapValues(groupedByProject, (group: any) => _.sortBy(group, 'storysubject'));
         const finalSortedArray = _.flatten(_.values(sortedByIdWithinGroups));
-        setData(finalSortedArray);
+        seperateData(finalSortedArray);
     }
       } catch (err: any) {
         console.log(err)
@@ -67,7 +73,7 @@ const Dashboard: React.FC = () => {
     
 }, []);
 const handleYes = async () => {
-  console.log('User clicked Yes');
+  // console.log('User clicked Yes');
   await RefreshFuntion();
   settokenInvalid(null);
   navigate('/');
@@ -76,7 +82,7 @@ const handleYes = async () => {
 };
 
 const handleNo = () => {
-  console.log('User clicked No');
+  // console.log('User clicked No');
   localStorage.removeItem('taiga-token');
   localStorage.removeItem('refresh-token');
   localStorage.removeItem('activeUser');
@@ -86,7 +92,45 @@ const handleNo = () => {
   settokenInvalid(null);
 
 };
+function seperateData(data: any) {
+  // Initialize arrays for 4 ranges
+  const patheons: any[] = [];
+  const novels: any[] = [];
+  const bigBadEvilGuy: any[] = [];
+  const skiesAblaze: any[] = [];
+  const moonsoon: any[] = [];
+  const sordaneStories: any[] = [];
 
+  const roles = [
+    { array: sordaneStories, value: 'sordane-stories' },
+    { array: moonsoon, value: 'moonsoon'  },
+    { array: skiesAblaze, value: 'skies-ablaze'  },
+    { array: bigBadEvilGuy, value: 'big-bad-evil-guy'  },
+    { array: novels, value: 'novels'  },
+    { array: patheons, value: 'patheons'  },
+  ];
+
+  // Separate data into ranges
+  data.forEach((item: { milestone_slug: any; }) => {
+    roles.forEach((role) => {
+      // console.log('here', role.value)
+      // console.log('here', item)
+      // console.log('here', item?.milestone_slug)
+      let test = JSON.stringify(item?.milestone_slug)
+      let check = JSON.stringify(role.value)
+      if (check == test) {
+        role.array.push(item);
+        // console.log('here', role.array)
+      }
+    });
+  });
+  setpatheons(patheons)
+  setnovelsData(novels)
+  setbigBadEvilGuyData(bigBadEvilGuy)
+  setskiesAblazeData(skiesAblaze)
+  setmoonsoonData(moonsoon)
+  setsordaneStoriesData(sordaneStories)
+}
   return (
     <div >
       {tokenInvalid && (
@@ -97,10 +141,20 @@ const handleNo = () => {
       <NavBar />
       {error && <p>{error}</p>}
       <div className='desktop-only'>
-        <DashboardDesktopView data={data}/>
+        <DashboardDesktopView data={sordaneStoriesData}/>
+        <DashboardDesktopView data={bigBadEvilGuyData}/>
+        <DashboardDesktopView data={patheonsData}/>
+        <DashboardDesktopView data={novelsData}/>
+        <DashboardDesktopView data={skiesAblazeData}/>
+        <DashboardDesktopView data={moonsoonData}/>
       </div>
       <div className='mobile-only'>
-        <DashboardMobileView data={data}/>
+        <DashboardMobileView data={sordaneStoriesData}/>
+        <DashboardMobileView data={bigBadEvilGuyData}/>
+        <DashboardMobileView data={patheonsData}/>
+        <DashboardMobileView data={novelsData}/>
+        <DashboardMobileView data={skiesAblazeData}/>
+        <DashboardMobileView data={moonsoonData}/>
       </div>
     </div>
   );
