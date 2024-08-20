@@ -25,48 +25,14 @@ const Combobox: React.FC = () => {
     let uData = JSON.stringify({});
     let tData = JSON.stringify({});
     const _ = require("lodash");
+  const isManager = localStorage.getItem('isManager');
   var order = ["Artist", "Sculpting", "Writing", "Manager"];
-    
-    useEffect(() => {
-
-    //     // Define async function inside useEffect
-    //     const fetchData2 = async () => {
-    //       const token = localStorage.getItem('taiga-token');
-    // let counter =0
-    //       const config = {
-    //         method: 'get',
-    //         maxBodyLength: Infinity,
-    //         url: 'https://api.taiga.io/api/v1/task-statuses?project=1575333',
-    //         headers: { 
-    //           'Authorization': `Bearer ${token}`, 
-    //           'Content-Type': 'application/json'
-    //         }
-    //       };
-    // if(counter<1){
-    //     counter ++
-    //       try {
-    //         console.log('data')
-    //         showSpinner();
-    //         const response = await axios.request(config);
-    //         localStorage.setItem('task-columns', response.data);
-    //         console.log(response.data)
-    //       } catch (error) {
-    //         setError('An error occurred while fetching data.');
-    //         console.error(error);
-    //       } finally {
-    //         hideSpinner();
-    //       }}
-    //     };
-    
-    //     // Fetch data when component mounts
-    //     fetchData2();
-
-    
+    useEffect(() => {  
         const fetchData = async () => {
             // console.log(artistData)
             const token = localStorage.getItem('taiga-token');
             // console.log(token)
-            if (token === undefined || token === null) {
+            if (token === undefined || token === null || isManager !== 'Manager') {
             //   console.log('not logged in')
               navigate('/');
               return;
@@ -80,9 +46,13 @@ const Combobox: React.FC = () => {
               });
             uData = JSON.stringify(response.data)
             compareArrays();
-            } catch (err) {
+            } catch (err: any) {
                 console.log(err)
               setError('Failed to fetch data');
+              if(err?.response?.data?.detail == "Given token not valid for any token type"){
+                settokenInvalid(err.message);
+                // RefreshButton();
+              }
             }
             try {
                 const response = await axios.get('https://api.taiga.io/api/v1/tasks?project=1575333', {
@@ -93,9 +63,13 @@ const Combobox: React.FC = () => {
                 });
                 tData = JSON.stringify(response.data)
                 compareArrays();
-              } catch (err) {
+              } catch (err: any) {
                 console.log(err)
                 setError('Failed to fetch data');
+                if(err?.response?.data?.detail == "Given token not valid for any token type"){
+                  settokenInvalid(err.message);
+                  // RefreshButton();
+                }
               }
     };
     fetchData()
@@ -103,7 +77,7 @@ const Combobox: React.FC = () => {
     if(uData){
         let userData = JSON.parse(uData)
         // console.log('65',data)
-        // console.log('66',userData)
+        console.log('66',userData)
         if(artistData && artistData.length >= userData.length){
             return
         }
@@ -113,10 +87,18 @@ const Combobox: React.FC = () => {
         // console.log(taskData)
         try{
             // console.log(userData.length)
+            
             for(let i=0; i< userData.length; i++) {
                 userData[i].count = 0;
                 userData[i].tasks = [];
                 // console.log(user)
+                userData[i].roles.forEach((role: any) => {
+                  order.forEach((namedRole: any) => {
+                    if (role === namedRole){
+                      userData[i].ourRole = namedRole
+                    }
+                  });
+                });
                 for(let j=0; j< taskData.length; j++) {
 
                     if (userData[i].username === taskData[j]?.assigned_to_extra_info?.username && !taskData[j]?.is_closed){
@@ -126,7 +108,12 @@ const Combobox: React.FC = () => {
                         taskData[j].storysubject =taskData[j].user_story_extra_info?.subject
                         taskData[j].url= 'https://tree.taiga.io/project/sordane-publishing/task/' + taskData[j].ref 
                         userData[i].tasks.push(taskData[j]); 
-
+                        if(userData[i].bio === "I am NOT Avalible for Work"){
+                          userData[i].vacation = 'Not Open'
+                        }
+                        else {
+                          userData[i].vacation = 'Open'
+                        }
                     }
                 };
                 setartistData(userData);
@@ -159,11 +146,15 @@ const handleYes = async () => {
 };
 
 const handleNo = () => {
-  // console.log('User clicked No');
-  localStorage.removeItem('taiga-token');
-  localStorage.removeItem('refresh-token');
-  localStorage.removeItem('activeUser');
-  sessionStorage.clear();
+    //Block of text to logout
+    localStorage.removeItem('taiga-token');
+    localStorage.removeItem('refresh-token');
+    localStorage.removeItem('activeUser');
+    localStorage.removeItem('isManager');
+    localStorage.removeItem('username');
+    localStorage.removeItem('id');
+    localStorage.removeItem('bio');
+    sessionStorage.clear();
   navigate('/');
   window.location.reload();
   settokenInvalid(null);

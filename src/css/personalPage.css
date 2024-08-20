@@ -1,0 +1,17 @@
+.leftside{
+    width: 50%;
+    float: left;
+    height: 95%;
+    text-align: center;
+    background-color: #d9d9d9;
+}
+.rightSide{
+    float: right;
+    width: 50%;
+    height: 95%;
+    display: flex;
+    background-color: #b3b3b3;;
+}
+img{
+    width: 300px;
+}

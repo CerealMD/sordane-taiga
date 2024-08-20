@@ -12,10 +12,12 @@ const ErrorPopup: React.FC<ErrorPopupProps> = ({ message, onYes, onNo }) => {
     return (
     <div className="overlay">
       <div className="popup">
-        <h2>Error</h2>
-        <p>{message}</p><br/><p>Your Token has expired would you like to refresh it?</p>
-        <button onClick={onYes}>Yes</button>
-        <button onClick={onNo}>No</button>
+        <div className='fakeH1'>Error</div>
+        <div className='fakeH3'>Your Token has expired would you like to refresh it?</div>
+        <div>
+        <button onClick={onYes}>Refresh</button>
+        <button style={{float: 'right'}} onClick={onNo}>Logout</button>
+        </div>
       </div>
     </div>
   );

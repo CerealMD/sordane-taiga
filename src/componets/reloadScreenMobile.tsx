@@ -25,7 +25,13 @@ const ReloadScreenMobile: React.FC = () => {
     }, []);
   
     const handleLogin = async (e: React.FormEvent) => {
-      navigate('/combobox');
+      if(localStorage.getItem('isManager') !== ''){
+        navigate('/combobox');
+      }
+      else{
+        let navTool = '/' + localStorage.getItem('username')
+        navigate(navTool);
+      }
       return
     };
   

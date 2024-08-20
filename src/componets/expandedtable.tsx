@@ -16,6 +16,8 @@ interface Detail {
     storysubject: string;
     id: number;
     ref: number;
+    vacation: string;
+    ourRole: string
 }
 
 interface Item {
@@ -25,6 +27,8 @@ interface Item {
   tasks: Detail[];
   roles: string;
   id: number;
+  vacation: string
+  ourRole: string
 }
 
 interface ExpandableTableProps {
@@ -32,7 +36,7 @@ interface ExpandableTableProps {
 }
 
 const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
-  // console.log(data)
+  console.log(data)
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
 
   const handleRowClick = (id: number) => {
@@ -98,7 +102,7 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
             <div className='data'>{item?.username}</div>
             <div className='data'> {item?.full_name}</div>
             <div className='data'>{item?.count}</div>
-            <div className='data'>{item?.roles}</div>
+            <div className='data'>{item?.ourRole}</div>
             <div className='smallExpandCollapse'></div>
             <div className='bigExpandCollapse'></div>
           </div>

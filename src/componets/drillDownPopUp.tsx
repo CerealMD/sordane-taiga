@@ -14,7 +14,7 @@ const DrillDownPopUp: React.FC<DrillDownPopUpProps> = ({ data, onMessage, onClos
       <div className="popup">
         <h2>{data?.subject}</h2>
         <div>
-          <div >Column: {data?.namez}</div>
+          <div >Status: {data?.namez}</div>
           <div >Assigned to Full Name: {data?.assigned_to_extra_info?.full_name_display}</div>
           <div >Assigned to User Name: {data?.assigned_to_extra_info?.username}</div>
           <div >Project: {data?.milestone_slug}</div>

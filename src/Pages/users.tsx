@@ -52,9 +52,14 @@ const Users: React.FC = () => {
     
     const handleNo = () => {
       // console.log('User clicked No');
-      localStorage.removeItem('taiga-token');
-      localStorage.removeItem('refresh-token');
-      localStorage.removeItem('activeUser');
+    //Block of text to logout
+    localStorage.removeItem('taiga-token');
+    localStorage.removeItem('refresh-token');
+    localStorage.removeItem('activeUser');
+    localStorage.removeItem('username');
+    localStorage.removeItem('isManager');
+    localStorage.removeItem('id');
+    localStorage.removeItem('bio');
       sessionStorage.clear();
       navigate('/');
       window.location.reload();

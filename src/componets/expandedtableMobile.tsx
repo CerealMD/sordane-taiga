@@ -16,6 +16,7 @@ interface Detail {
     storysubject: string;
     id: number;
     ref: number;
+    ourRole: string
 }
 
 interface Item {
@@ -25,6 +26,7 @@ interface Item {
   tasks: Detail[];
   roles: string;
   id: number;
+  ourRole: string
 }
 
 interface ExpandableTableProps {
@@ -93,7 +95,7 @@ const ExpandedtableMobile: React.FC<ExpandableTableProps> = ({ data }) => {
           <div onClick={() => handleRowClick(item.id)} className={classNames('rowParent', getRowStyle(index), rowSelectedCheck(item.id))}>
             <div className='data dataComboBox'>{item?.username}</div>
             <div className='data dataComboBox'>{item?.count}</div>
-            <div className='data dataComboBox'>{item?.roles}</div>
+            <div className='data dataComboBox'>{item?.ourRole}</div>
             <div className='smallExpandCollapse'></div>
           </div>
           <div className={showExtra(index)} >

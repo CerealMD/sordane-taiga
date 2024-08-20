@@ -19,6 +19,7 @@ const LoginContainerMobile: React.FC = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('taiga-token');
   const activeUser = localStorage.getItem('activeUser');
+  const isManager = localStorage.getItem('isManager');
   const logo = require('../outSideContent/sordane_publishing_logo_square.jpg')
   
     useEffect(() => {
@@ -59,10 +60,27 @@ const LoginContainerMobile: React.FC = () => {
         .then((response) => {
         // console.log('27',response.data);
         let activeUser = "" + response.data.full_name + " AKA " + response.data.username
+        if(response.data.roles.indexOf('Manager') !== -1){
+        localStorage.setItem('isManager', response.data.roles[0]);
+      }
+      else{
+        localStorage.setItem('isManager', '');
+
+      }
         localStorage.setItem('taiga-token', response.data.auth_token);
         localStorage.setItem('activeUser', activeUser);
         localStorage.setItem('refresh-token', response.data.refresh);
+        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('id', response.data.id);
+        localStorage.setItem('bio', response.data.bio);
+        // console.log(localStorage.getItem('isManager'))
+        if(localStorage.getItem('isManager') !== ''){
         navigate('/combobox');
+      }
+      else{
+        let navTool = '/' + response.data.username
+        navigate(navTool);
+      }
         return response.data.token;
         })
         .catch((error) => {

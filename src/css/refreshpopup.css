@@ -17,3 +17,17 @@
     align-items: center;
     z-index: 3;
   }
+  .fakeH1{
+    display: block;
+    font-size: 2em;
+    font-weight: bold;
+  }
+  .fakeH3{
+    display: block;
+    font-size: 1.17em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+  }

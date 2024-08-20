@@ -21,6 +21,7 @@ const Dashboard: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
   const _ = require("lodash");
+  const isManager = localStorage.getItem('isManager');
   const navigate = useNavigate();
   useEffect(() => {
     // console.log(localStorage.getItem('refresh-token'))
@@ -28,7 +29,7 @@ const Dashboard: React.FC = () => {
         let response;
       const token = localStorage.getItem('taiga-token');
     //   console.log(token)
-      if (token === undefined || token === null) {
+      if (token === undefined || token === null || isManager !== 'Manager') {
         // console.log('not logged in')
         navigate('/');
         return;
@@ -83,10 +84,15 @@ const handleYes = async () => {
 
 const handleNo = () => {
   // console.log('User clicked No');
-  localStorage.removeItem('taiga-token');
-  localStorage.removeItem('refresh-token');
-  localStorage.removeItem('activeUser');
-  sessionStorage.clear();
+    //Block of text to logout
+    localStorage.removeItem('taiga-token');
+    localStorage.removeItem('refresh-token');
+    localStorage.removeItem('activeUser');
+    localStorage.removeItem('username');
+    localStorage.removeItem('isManager');
+    localStorage.removeItem('id');
+    localStorage.removeItem('bio');
+    sessionStorage.clear();
   navigate('/');
   window.location.reload();
   settokenInvalid(null);
