@@ -172,14 +172,14 @@ const handleYes = async () => {
         data : data
       };
       
-      axios.request(config)
-      .then((response: { data: any; }) => {
-        console.log(JSON.stringify(response.data));
-        setbio(displayAvalible)
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+      // axios.request(config)
+      // .then((response: { data: any; }) => {
+      //   console.log(JSON.stringify(response.data));
+      //   setbio(displayAvalible)
+      // })
+      // .catch((error: any) => {
+      //   console.log(error);
+      // });
   };
   return (
     <div style={{height: '100%'}}>

@@ -34,7 +34,19 @@ const ReloadScreen: React.FC = () => {
       }
       return
     };
-  
+    const handleLogout = () => {
+      // Block of text to logout
+      localStorage.removeItem('taiga-token');
+      localStorage.removeItem('refresh-token');
+      localStorage.removeItem('activeUser');
+      localStorage.removeItem('isManager');
+      localStorage.removeItem('id');
+      localStorage.removeItem('bio');
+      sessionStorage.clear();
+      // Redirect to login page
+      navigate('/');
+      window.location.reload();
+    };
     return (
       <div style={{width: '100%', height: '100%'}}>
         <div className='leftMain'> 
@@ -51,6 +63,7 @@ const ReloadScreen: React.FC = () => {
       <form onSubmit={handleLogin}>
                   <button className='button' type="submit"><span>Re-Enter</span></button>
       </form>
+      <button className='button' onClick={handleLogout} ><span>Logout</span></button>
       </div>
       </div>
       </div>

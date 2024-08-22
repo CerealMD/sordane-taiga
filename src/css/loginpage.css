@@ -12,7 +12,7 @@
     float: left;
     text-align: center;
     height: 100vh;
-    background: linear-gradient(to right, transparent, #accece), url('../outSideContent/bgimage.jpg');
+    background: linear-gradient(to right, transparent, #accece), url('../outSideContent/Cindarian-Empire-Faction-Art.jpg');
     /* background-image: url('../outSideContent/bgimage.jpg'); */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */

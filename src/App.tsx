@@ -15,7 +15,7 @@ const App: React.FC = () => {
         <Route path="/tasks" Component={Dashboard} />
         <Route path="/users" Component={Users} />
         <Route path="/combobox" Component={Combobox} />
-        {/* <Route path="/:username" element={<UserProfile />} /> */}
+        <Route path="/:username" element={<UserProfile />} />
         <Route path="*" Component={Four0Four} />
       </Routes>
     </Router>
