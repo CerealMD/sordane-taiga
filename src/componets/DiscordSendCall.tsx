@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 async function DiscordService(data: any) {
-
+  let dateTime = new Date()
         console.log(data)
       const body = {
         content: data,
@@ -10,15 +10,15 @@ async function DiscordService(data: any) {
         color: "white",
         embeds: [
           {
-            title: "Contact Form",
-            description: data,
+            title: "Updated on:",
+            description: dateTime,
           },
         ],
       };
   
       try {
         const data = await axios.post(
-          "https://discord.com/api/webhooks/1276190395654737991/zKAS012mJYdjgiCKfVDBN4Mn-4tL44hEXTRrPDA5tE1skRQkXDQ1tThQOE7e_5gDZoY0",
+          "https://discord.com/api/webhooks/1276401274446807074/ty9tVZmgj7DIomZr2GRWZqydmNnC1mo6pGI55yYQIP4Y510w2FAxvrn-nRkxrx_SNYzN",
           body
         );
         console.log(data);

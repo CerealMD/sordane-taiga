@@ -61,7 +61,7 @@ const LoginContainerMobile: React.FC = () => {
         // console.log('27',response.data);
         let activeUser = "" + response.data.full_name + " AKA " + response.data.username
         if(response.data.roles.indexOf('Manager') !== -1){
-        localStorage.setItem('isManager', response.data.roles[0]);
+        localStorage.setItem('isManager', 'Manager');
       }
       else{
         localStorage.setItem('isManager', '');

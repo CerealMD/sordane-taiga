@@ -10,6 +10,7 @@ import BooleanSlider from '../componets/Slider';
 import '../css/personalPage.css'
 import NestedTable from '../componets/nestedTable';
 import PersonalPageTable from '../componets/PersonalPageTable';
+import DiscordService from '../componets/DiscordSendCall';
 interface Detail {
     assigned_to_extra_info: [];
     username: string;
@@ -28,16 +29,19 @@ interface Detail {
 interface NestedTableProps {
   details: Detail[];
 }
+
+
 const UserProfile = () => {
     const { username } = useParams();
+    const activeusername = localStorage.getItem('username');
+const [didClick, setdidClick] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
     const token = localStorage.getItem('taiga-token');
-    const activeusername = localStorage.getItem('username');
     const isManager = localStorage.getItem('isManager');
     const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
     const [pfp, setPfp] = useState<string>('');
-    const [bio, setbio] = useState<string>('');
+    const [busername, setbio] = useState<string>('');
     const [canWork, setcanWork] = useState<boolean>();
     const id = localStorage.getItem('id');
     const basebio = localStorage.getItem('bio');
@@ -181,18 +185,38 @@ const handleYes = async () => {
       //   console.log(error);
       // });
   };
+  function sendGoingOnVacation(p0: number): React.MouseEventHandler<HTMLButtonElement> | undefined {
+
+      setdidClick(false)
+    console.log(activeusername)
+    let data = `${activeusername} is not open to work right now. <@262650022166921227>, <@640180711457816607>, <@271061294096973826>`
+    DiscordService(data)
+    return
+  }
+  
+  function sendBAckFromVacation(p0: number): React.MouseEventHandler<HTMLButtonElement> | undefined {
+
+      setdidClick(false)
+    console.log(activeusername)
+    let data = `${activeusername} is open work right now. <@262650022166921227>, <@640180711457816607>, <@271061294096973826>`
+    DiscordService(data)
+    return
+  }
   return (
     <div style={{height: '100%'}}>
               {tokenInvalid && (
         <ErrorPopupProps message={tokenInvalid}  onYes={handleYes}
         onNo={handleNo}/> 
       )}
-      <div style={{width: '100%', height: '5%'}}><LogoutButton /></div>
+      <div style={{width: '100%', height: '3%', paddingTop: '1%'}}><div style={{marginRight: '10px'}}><LogoutButton /></div></div>
         <div className='leftside'>
-        <div><img alt="users profile picture" src={pfp}/></div>
-      <div style={{textAlign: 'center'}}>{bio}</div>
-      <BooleanSlider initialChecked={canWork} onChange={handleSliderChange} />
-
+        <div><img style={{marginTop: '30%'}} alt="users profile picture" src={pfp}/></div>
+      {/* <div style={{textAlign: 'center'}}>{bio}</div> */}
+      {/* <BooleanSlider initialChecked={canWork} onChange={handleSliderChange} /> */}
+      <div style={{display: "block ruby"}}>
+      <button className="button-29" onClick={() => {sendGoingOnVacation(1)}}>Message Going on Vacation</button>
+      <button className="button-29" onClick={() => {sendBAckFromVacation(1)}}>Message I'm Back From Vacation</button>
+      </div>
         </div>
         <div className='rightSide'>
             <PersonalPageTable myTasks={myTasks} username={username} />

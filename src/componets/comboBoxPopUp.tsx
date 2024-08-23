@@ -31,7 +31,7 @@ interface ComboBoxPopUpProps {
           <div >Project: {data?.milestone_slug}</div>
           <div >Due Date: {data?.due_date}</div>
           <div >Story Task: {data?.storysubject}</div>
-          <div ><a href={data?.url}>{data?.url}</a></div>
+          <div ><a target="_blank" href={data?.url}>{data?.url}</a></div>
           
     </div>
 <div style={{marginTop: '10%'}}>

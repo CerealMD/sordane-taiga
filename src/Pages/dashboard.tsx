@@ -28,7 +28,8 @@ const Dashboard: React.FC = () => {
     const fetchData = async () => {
         let response;
       const token = localStorage.getItem('taiga-token');
-    //   console.log(token)
+      console.log(token)
+      console.log(isManager)
       if (token === undefined || token === null || isManager !== 'Manager') {
         // console.log('not logged in')
         navigate('/');
