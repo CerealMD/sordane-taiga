@@ -39,8 +39,8 @@ const PersonalPageTable: React.FC<PersonalPageTableProps> = ({ myTasks,username 
         }
             else{
                 // console.log(username)
-                // console.log(task.assigned_to_extra_info.username)
-                if(task.assigned_to_extra_info.username === username){
+                console.log(task)
+                if(task.assigned_to_extra_info.username === username && !task.is_closed){
                     task.url = 'https://tree.taiga.io/project/sordane-publishing/task/'+ task.ref
                     showableArray.push(task)
                 }

@@ -11,6 +11,7 @@ import '../css/personalPage.css'
 import NestedTable from '../componets/nestedTable';
 import PersonalPageTable from '../componets/PersonalPageTable';
 import DiscordService from '../componets/DiscordSendCall';
+import NavBar from '../componets/navTools';
 interface Detail {
     assigned_to_extra_info: [];
     username: string;
@@ -48,10 +49,17 @@ const [didClick, setdidClick] = useState<boolean>(false);
     const logo = require('../outSideContent/sordane_publishing_logo_square.jpg')
     let tData;
     const [myTasks, setmyTasks] = useState<Detail[]>([]);
-
+    let topOfScreen
+    if(isManager){
+      console.log('is manager ')
+      topOfScreen = <NavBar/>
+    }
+    else{
+      topOfScreen = <div style={{width: '100%', height: '3%', paddingTop: '1%'}}><div style={{marginRight: '10px'}}><LogoutButton /></div></div>
+    }
 useEffect(() => {  
-        const fetchData = async () => {
 
+        const fetchData = async () => {
             console.log(activeusername?.toLocaleLowerCase())
             console.log(username?.toLocaleLowerCase())
             console.log(isManager)
@@ -63,6 +71,7 @@ useEffect(() => {
               console.log('not logged in')
                 navigate('/');
             }
+            
             try {
                 console.log('call')
                 const response = await axios.get('https://api.taiga.io/api/v1/users?project=1575333', {
@@ -150,6 +159,7 @@ const handleYes = async () => {
     settokenInvalid(null);
   
   };
+
   const handleSliderChange = async (newValue: any) => {
     console.log('Slider value:', newValue);
             let displayAvalible: React.SetStateAction<string>;
@@ -189,7 +199,7 @@ const handleYes = async () => {
 
       setdidClick(false)
     console.log(activeusername)
-    let data = `${activeusername} is not open to work right now. <@262650022166921227>, <@640180711457816607>, <@271061294096973826>`
+    let data = `${activeusername} is not open to work right now.`
     DiscordService(data)
     return
   }
@@ -198,19 +208,23 @@ const handleYes = async () => {
 
       setdidClick(false)
     console.log(activeusername)
-    let data = `${activeusername} is open work right now. <@262650022166921227>, <@640180711457816607>, <@271061294096973826>`
+    // <@262650022166921227> => Benny
+// <@640180711457816607> => Marti
+// <@271061294096973826> => Squishy
+    let data = `${activeusername} is open work right now.`
     DiscordService(data)
     return
   }
   return (
     <div style={{height: '100%'}}>
+      {topOfScreen}
               {tokenInvalid && (
         <ErrorPopupProps message={tokenInvalid}  onYes={handleYes}
         onNo={handleNo}/> 
       )}
-      <div style={{width: '100%', height: '3%', paddingTop: '1%'}}><div style={{marginRight: '10px'}}><LogoutButton /></div></div>
         <div className='leftside'>
-        <div><img style={{marginTop: '30%'}} alt="users profile picture" src={pfp}/></div>
+          <div style={{marginTop: '30%'}}>{username}</div>
+        <div><img  alt="users profile picture" src={pfp}/></div>
       {/* <div style={{textAlign: 'center'}}>{bio}</div> */}
       {/* <BooleanSlider initialChecked={canWork} onChange={handleSliderChange} /> */}
       <div style={{display: "block ruby"}}>

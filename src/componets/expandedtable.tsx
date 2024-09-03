@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import NestedTable from './nestedTable';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
 
 interface Detail {
     assigned_to_extra_info: [];
@@ -36,6 +37,7 @@ interface ExpandableTableProps {
 }
 
 const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
+  const navigate = useNavigate();
   console.log(data)
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
 
@@ -79,7 +81,9 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
       return 'showExtra'
     }
   };
-  
+  function handleSliderChange(location: any) {
+    navigate(`/${location}`)
+  }
   // console.log(data)
     return <div>
     <div style={{ width: '80%', marginLeft: '10%', paddingBottom: '7px', paddingTop: '10px' }}>    
@@ -99,7 +103,7 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
     {data.map((item, index)  => { 
     return <div key={item.id}>
           <div onClick={() => handleRowClick(item.id)} className={classNames('rowParent', getRowStyle(index), rowSelectedCheck(item.id))}>
-            <div className='data'>{item?.username}</div>
+            <div className='data' style={{ cursor: 'pointer'}}><a onClick={()=> {handleSliderChange(`${item.username}`)}}>{item?.username}</a></div>
             <div className='data'> {item?.full_name}</div>
             <div className='data'>{item?.count}</div>
             <div className='data'>{item?.ourRole}</div>

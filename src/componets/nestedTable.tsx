@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import ComboBoxPopUp from './comboBoxPopUp';
 import { useSpinner } from './spinnerContext';
 import axios from 'axios';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 interface Detail {
     assigned_to_extra_info: [];
@@ -25,6 +26,8 @@ interface NestedTableProps {
   details: Detail[];
 }
 const NestedTable: React.FC<NestedTableProps> = ({ details }) => {
+  const navigate = useNavigate();
+
   const [openPopUpToken, setopenPopUpToken] = useState<object | null>(null);
 
   const editIcon = require('../outSideContent/edit-icon.png')
@@ -48,6 +51,9 @@ const NestedTable: React.FC<NestedTableProps> = ({ details }) => {
 
     setopenPopUpToken(null);
   };
+  function handleSliderChange(location: any) {
+    navigate(`/${location}`)
+  }
 if(details.length > 0){
   // console.log(details)
 details.forEach(item => {
@@ -69,7 +75,7 @@ details.forEach(item => {
     {details.map((item, index)  => { 
     return <div key={item.ref}>
       <div  className={classNames('rowParent', getRowStyle(index))}>
-          <div className='data subData' style={{width:'13%', textAlign: 'center'}}>{item?.username}</div>
+          <div className='data subData' style={{width:'13%', textAlign: 'center', cursor: 'pointer'}}><a onClick={()=> {handleSliderChange(`${item.username}`)}}>{item?.username}</a></div>
           <div className={classNames(GetRowStyle(item.due_date), 'canClick', 'subData')} ><a href={item?.url} target="_blank">{item?.subject}</a></div>
           <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.milestone_slug}</div>
           <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.namez}</div>
