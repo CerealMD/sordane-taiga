@@ -14,6 +14,7 @@ const Dashboard: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [patheonsData, setpatheons] = useState<any[]>([]);
   const [novelsData, setnovelsData] = useState<any[]>([]);
+  const [graphicNovelsData, setgraphicNovelsData] = useState<any[]>([]);
   const [bigBadEvilGuyData, setbigBadEvilGuyData] = useState<any[]>([]);
   const [skiesAblazeData, setskiesAblazeData] = useState<any[]>([]);
   const [moonsoonData, setmoonsoonData] = useState<any[]>([]);
@@ -28,8 +29,8 @@ const Dashboard: React.FC = () => {
     const fetchData = async () => {
         let response;
       const token = localStorage.getItem('taiga-token');
-      console.log(token)
-      console.log(isManager)
+      // console.log(token)
+      // console.log(isManager)
       if (token === undefined || token === null || isManager !== 'Manager') {
         // console.log('not logged in')
         navigate('/');
@@ -107,6 +108,7 @@ function seperateData(data: any) {
   const skiesAblaze: any[] = [];
   const moonsoon: any[] = [];
   const sordaneStories: any[] = [];
+  const graphicNovels: any[] = [];
 
   const roles = [
     { array: sordaneStories, value: 'sordane-stories' },
@@ -115,6 +117,7 @@ function seperateData(data: any) {
     { array: bigBadEvilGuy, value: 'big-bad-evil-guy'  },
     { array: novels, value: 'novels'  },
     { array: patheons, value: 'patheons'  },
+    { array: graphicNovels, value: 'graphicNovels'  },
   ];
 
   // Separate data into ranges
@@ -137,6 +140,7 @@ function seperateData(data: any) {
   setskiesAblazeData(skiesAblaze)
   setmoonsoonData(moonsoon)
   setsordaneStoriesData(sordaneStories)
+  setgraphicNovelsData(graphicNovels)
 }
   return (
     <div >
@@ -154,6 +158,7 @@ function seperateData(data: any) {
         <DashboardDesktopView data={novelsData}/>
         <DashboardDesktopView data={skiesAblazeData}/>
         <DashboardDesktopView data={moonsoonData}/>
+        <DashboardDesktopView data={graphicNovelsData}/>
       </div>
       <div className='mobile-only'>
         <DashboardMobileView data={sordaneStoriesData}/>
@@ -162,6 +167,7 @@ function seperateData(data: any) {
         <DashboardMobileView data={novelsData}/>
         <DashboardMobileView data={skiesAblazeData}/>
         <DashboardMobileView data={moonsoonData}/>
+        <DashboardMobileView data={graphicNovelsData}/>
       </div>
     </div>
   );

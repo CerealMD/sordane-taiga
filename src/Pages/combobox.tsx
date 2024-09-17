@@ -19,8 +19,6 @@ const Combobox: React.FC = () => {
     const [writtingData, setwrittingData] = useState<any[]>([]);
     const [managementData, setmanagementData] = useState<any[]>([]);
   const [tokenInvalid, settokenInvalid] = useState<string | null>(null);
-  const { showSpinner, hideSpinner } = useSpinner();
-  const [response, setResponse] = useState<object | null>(null);
     const navigate = useNavigate();
     let uData = JSON.stringify({});
     let tData = JSON.stringify({});
@@ -77,7 +75,7 @@ const Combobox: React.FC = () => {
     if(uData){
         let userData = JSON.parse(uData)
         // console.log('65',data)
-        console.log('66',userData)
+        // console.log('66',userData)
         if(artistData && artistData.length >= userData.length){
             return
         }

@@ -16,8 +16,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem('taiga-token');
   const activeUser = localStorage.getItem('activeUser');
-  console.log(token)
-  console.log(activeUser)
+  // console.log(token)
+  // console.log(activeUser)
   let loginOptions;
   let loginOptionsMobile;
   if(!token || !activeUser){

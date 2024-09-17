@@ -51,7 +51,7 @@ const [didClick, setdidClick] = useState<boolean>(false);
     const [myTasks, setmyTasks] = useState<Detail[]>([]);
     let topOfScreen
     if(isManager){
-      console.log('is manager ')
+      // console.log('is manager ')
       topOfScreen = <NavBar/>
     }
     else{
@@ -60,9 +60,9 @@ const [didClick, setdidClick] = useState<boolean>(false);
 useEffect(() => {  
 
         const fetchData = async () => {
-            console.log(activeusername?.toLocaleLowerCase())
-            console.log(username?.toLocaleLowerCase())
-            console.log(isManager)
+            // console.log(activeusername?.toLocaleLowerCase())
+            // console.log(username?.toLocaleLowerCase())
+            // console.log(isManager)
             let thisPageUSer;
             if (isManager == 'Manager' || activeusername?.toLocaleLowerCase() === username?.toLocaleLowerCase()) {
               console.log('logged in')
@@ -73,7 +73,7 @@ useEffect(() => {
             }
             
             try {
-                console.log('call')
+                // console.log('call')
                 const response = await axios.get('https://api.taiga.io/api/v1/users?project=1575333', {
                   headers: {
                     Authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ useEffect(() => {
                 // console.log(response.data)
                 response.data.forEach((element: any) => {
                     if(element.username?.toLocaleLowerCase() === username?.toLocaleLowerCase()){
-                        console.log(element.bio)
+                        // console.log(element.bio)
                         if(element.bio){
                         setbio(element.bio);}
                         if(!element.big_photo){
@@ -109,6 +109,12 @@ useEffect(() => {
                     "x-disable-pagination": 'True'
                   },
                 });
+                response.data.forEach(function(task: any) {
+                  task.url = 'https://tree.taiga.io/project/sordane-publishing/task/' + task.ref
+                  task.username =task?.assigned_to_extra_info?.username
+                  task.namez =task?.status_extra_info?.name
+                  task.storysubject =task.user_story_extra_info?.subject
+                });
                 setmyTasks(response.data);
               } catch (err: any) {
                 console.log(err)
@@ -126,13 +132,13 @@ useEffect(() => {
         setbio('I am Avalible for Work')
         setcanWork(true)
         localStorage.setItem('bio', 'I am Avalible for Work');
-        console.log('t',basebio)
+        // console.log('t',basebio)
     }
         else{
         setbio('I am NOT Avalible for Work')
         setcanWork(false)
         localStorage.setItem('bio', 'I am NOT Avalible for Work');
-        console.log('f',basebio)
+        // console.log('f',basebio)
     }
 }, []);
 const handleYes = async () => {
@@ -161,7 +167,7 @@ const handleYes = async () => {
   };
 
   const handleSliderChange = async (newValue: any) => {
-    console.log('Slider value:', newValue);
+    // console.log('Slider value:', newValue);
             let displayAvalible: React.SetStateAction<string>;
             if(newValue){
                 displayAvalible = 'I am Avalible for Work' 
@@ -174,7 +180,7 @@ const handleYes = async () => {
     let data = JSON.stringify({
         "bio": displayAvalible
       });
-      console.log(data)
+      // console.log(data)
       let config = {
         method: 'patch',
         maxBodyLength: Infinity,
@@ -198,7 +204,7 @@ const handleYes = async () => {
   function sendGoingOnVacation(p0: number): React.MouseEventHandler<HTMLButtonElement> | undefined {
 
       setdidClick(false)
-    console.log(activeusername)
+    // console.log(activeusername)
     let data = `${activeusername} is not open to work right now.`
     DiscordService(data)
     return
@@ -207,7 +213,7 @@ const handleYes = async () => {
   function sendBAckFromVacation(p0: number): React.MouseEventHandler<HTMLButtonElement> | undefined {
 
       setdidClick(false)
-    console.log(activeusername)
+    // console.log(activeusername)
     // <@262650022166921227> => Benny
 // <@640180711457816607> => Marti
 // <@271061294096973826> => Squishy

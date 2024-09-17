@@ -38,7 +38,7 @@ interface ExpandableTableProps {
 
 const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
   const navigate = useNavigate();
-  console.log(data)
+  // console.log(data)
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
 
   const handleRowClick = (id: number) => {

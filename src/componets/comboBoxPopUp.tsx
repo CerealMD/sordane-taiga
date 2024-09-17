@@ -17,7 +17,7 @@ interface ComboBoxPopUpProps {
     const [error, setError] = useState<string | null>(null);
 
       const handleSelect = (value: string) => {
-        console.log('Selected:', value);
+        // console.log('Selected:', value);
       };
     return (
     <div className="overlay">

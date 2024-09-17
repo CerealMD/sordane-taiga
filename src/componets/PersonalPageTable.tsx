@@ -26,6 +26,7 @@ interface PersonalPageTableProps {
   username: string | undefined
 }
 const PersonalPageTable: React.FC<PersonalPageTableProps> = ({ myTasks,username }) => {
+    const _ = require("lodash");
   const [openPopUpToken, setopenPopUpToken] = useState<object | null>(null);
   const editIcon = require('../outSideContent/edit-icon.png')
   let showableArray: any[] = []
@@ -39,14 +40,23 @@ const PersonalPageTable: React.FC<PersonalPageTableProps> = ({ myTasks,username 
         }
             else{
                 // console.log(username)
-                console.log(task)
+                // console.log(task)
                 if(task.assigned_to_extra_info.username === username && !task.is_closed){
                     task.url = 'https://tree.taiga.io/project/sordane-publishing/task/'+ task.ref
                     showableArray.push(task)
                 }
         }
        });
-       console.log(showableArray)
+        const customOrder = ['sordane-stories', 'big-bad-evil-guy', 'patheons', 'novels', 'skies-ablaze', 'moonsoon', 'graphic-novel'];
+        const orderMap = _.mapValues(_.keyBy(customOrder), (value: any, index: any) => index);
+        const copyArray = [...showableArray]; 
+        // console.log(copyArray)
+        const sortedByDueDate = _.sortBy(copyArray, (item: { due_date: string | number | Date; }) => new Date(item.due_date).getTime());
+        const groupedByMilestone = _.groupBy(sortedByDueDate, 'milestone');
+        const sortedGroups = _.sortBy(_.toPairs(groupedByMilestone), ([milestone_slug]: any) => orderMap[milestone_slug] ?? Infinity);
+        const finalGroupedAndSorted = _.fromPairs(sortedGroups);
+        const finalSortedArray = _.flatten(_.values(finalGroupedAndSorted));
+        showableArray = finalSortedArray
         
   const getRowStyle = (index: number) => {
     return index % 2 === 0 ? 'rowEven2' : 'rowOdd2';

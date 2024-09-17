@@ -42,21 +42,21 @@ return
 
 
   })
-     console.log(test)
+    //  console.log(test)
     //  console.log(items)
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   
     const handleToggle = () => {
-     console.log(test)
-     console.log(isOpen)
+    //  console.log(test)
+    //  console.log(isOpen)
       setIsOpen(!isOpen);
     };
   
     const handleSelect = (value: string) => {
-     console.log(value)
-     console.log(test)
+    //  console.log(value)
+    //  console.log(test)
       setSelectedItem(value);
       setIsOpen(false);
       onSelect(value);

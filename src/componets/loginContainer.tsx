@@ -58,9 +58,9 @@ const LoginContainer: React.FC = () => {
       else{
         axios.request(config)
         .then((response) => {
-        console.log('27',response.data);
+        // console.log('27',response.data);
         let activeUser = "" + response.data.full_name + " AKA " + response.data.username
-        console.log(response.data.roles.indexOf('Manager'))
+        // console.log(response.data.roles.indexOf('Manager'))
         if(response.data.roles.indexOf('Manager') !== -1){
         localStorage.setItem('isManager', 'Manager');
       }
@@ -74,7 +74,7 @@ const LoginContainer: React.FC = () => {
         localStorage.setItem('username', response.data.username);
         localStorage.setItem('id', response.data.id);
         localStorage.setItem('bio', response.data.bio);
-        console.log(localStorage.getItem('isManager'))
+        // console.log(localStorage.getItem('isManager'))
         if(localStorage.getItem('isManager') !== ''){
         navigate('/combobox');
       }
