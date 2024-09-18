@@ -51,8 +51,11 @@ const NestedTable: React.FC<NestedTableProps> = ({ details }) => {
 
     setopenPopUpToken(null);
   };
-  function handleSliderChange(location: any) {
-    navigate(`/${location}`)
+  function openUsersPage(location: any) {
+    navigate(`/user/${location}`)
+  }
+  function openEpicsPage(location: any) {
+    navigate(`/story/${location}`)
   }
 if(details.length > 0){
   // console.log(details)
@@ -75,11 +78,11 @@ details.forEach(item => {
     {details.map((item, index)  => { 
     return <div key={item.ref}>
       <div  className={classNames('rowParent', getRowStyle(index))}>
-          <div className='data subData' style={{width:'13%', textAlign: 'center', cursor: 'pointer'}}><a onClick={()=> {handleSliderChange(`${item.username}`)}}>{item?.username}</a></div>
+          <div className='data subData' style={{width:'13%', textAlign: 'center', cursor: 'pointer'}}><a onClick={()=> {openUsersPage(`${item.username}`)}}>{item?.username}</a></div>
           <div className={classNames(GetRowStyle(item.due_date), 'canClick', 'subData')} ><a href={item?.url} target="_blank">{item?.subject}</a></div>
           <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.milestone_slug}</div>
           <div className='data subData' style={{width:'10%', textAlign: 'center'}}>{item?.namez}</div>
-          <div className='data subData'>{item?.storysubject}</div>
+          <div className='data subData'><a onClick={()=> {openEpicsPage(`${item.storysubject}`)}}>{item?.storysubject}</a></div>
           <div className={classNames(GetRowStyle(item.due_date), 'subData')} style={{width:'8%', textAlign: 'center'}} >{item?.due_date}</div>
           <div className='data subData canClick'style={{width:'2%', textAlign: 'center'}} onClick={() => OpenPopUp(item)}> <img alt="edit icon" style={{ width: 15 }} src={String(editIcon)}></img> </div>
           </div>

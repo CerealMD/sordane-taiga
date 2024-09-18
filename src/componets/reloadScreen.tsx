@@ -35,17 +35,7 @@ const ReloadScreen: React.FC = () => {
       return
     };
     const handleLogout = () => {
-      // Block of text to logout
-      localStorage.removeItem('taiga-token');
-      localStorage.removeItem('refresh-token');
-      localStorage.removeItem('activeUser');
-      localStorage.removeItem('isManager');
-      localStorage.removeItem('id');
-      localStorage.removeItem('bio');
-      sessionStorage.clear();
-      // Redirect to login page
-      navigate('/');
-      window.location.reload();
+      navigate('/logout');
     };
     return (
       <div style={{width: '100%', height: '100%'}}>

@@ -1,0 +1,19 @@
+.pieChartCSS{
+    text-align: -webkit-center;
+}
+.headerPieChat{
+    text-align: center;
+}
+.pieBox{
+    float: left;
+    margin-left: 9%;
+}
+.boxHolder{
+    /* margin-left: 25%; */
+    margin-top: 50px;
+}
+.storyTable{
+    float: left;
+  width: 100%;
+
+}

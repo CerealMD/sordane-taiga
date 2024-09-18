@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import GetRowStyle from '../componets/getRowStyle';
 import classNames from 'classnames';
 import DrillDownPopUp from './drillDownPopUp';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 interface Detail {
     assigned_to_extra_info: [];
@@ -25,11 +26,14 @@ interface NestedTableProps {
 const NestedTable: React.FC<NestedTableProps> = ({ details }) => {
   const [openPopUpToken, setopenPopUpToken] = useState<object | null>(null);
   const editIcon = require('../outSideContent/edit-icon.png')
+  const navigate = useNavigate();
 
   const getRowStyle = (index: number) => {
     return index % 2 === 0 ? 'rowEven2' : 'rowOdd2';
   };
-
+  function openUsersPage(location: any) {
+    navigate(`/user/${location}`)
+  }
 if(details.length > 0){
   // console.log(details)
 details.forEach(item => {
@@ -45,7 +49,7 @@ details.forEach(item => {
     setopenPopUpToken(null);
   
   };
-  
+
   const handleClose = () => {
 
     setopenPopUpToken(null);
@@ -63,7 +67,7 @@ details.forEach(item => {
     {details.map((item, index)  => { 
     return <div key={index}>
     <div  className={classNames('rowParent', getRowStyle(index))}>
-          <div className={classNames('dataComboBox', GetRowStyle(item.due_date))} >{item?.subject}</div>
+          <div className={classNames('dataComboBox', GetRowStyle(item.due_date))} ><a onClick={()=> {openUsersPage(`${item.username}`)}}>{item?.username}</a></div>
           <div className='data dataComboBox'>{item?.milestone_slug}</div>
           <div className={classNames('dataComboBox', GetRowStyle(item.due_date))}>{item?.due_date}</div>
           <div className='data' style={{width: '10%', textAlign: 'center', cursor: 'pointer'}}><a onClick={() => openPopUp(item)} ><img alt="edit icon" style={{ width: 15 }} src={String(editIcon)}></img></a></div>

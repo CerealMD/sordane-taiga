@@ -5,18 +5,7 @@ const LogoutButton: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    //Block of text to logout
-    localStorage.removeItem('taiga-token');
-    localStorage.removeItem('refresh-token');
-    localStorage.removeItem('activeUser');
-    localStorage.removeItem('isManager');
-    localStorage.removeItem('username');
-    localStorage.removeItem('id');
-    localStorage.removeItem('bio');
-    sessionStorage.clear();
-    navigate('/');
-    window.location.reload();
-    
+    navigate('/logout');
   };
 
   return (

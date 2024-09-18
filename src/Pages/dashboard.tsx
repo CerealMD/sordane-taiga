@@ -85,20 +85,7 @@ const handleYes = async () => {
 };
 
 const handleNo = () => {
-  // console.log('User clicked No');
-    //Block of text to logout
-    localStorage.removeItem('taiga-token');
-    localStorage.removeItem('refresh-token');
-    localStorage.removeItem('activeUser');
-    localStorage.removeItem('username');
-    localStorage.removeItem('isManager');
-    localStorage.removeItem('id');
-    localStorage.removeItem('bio');
-    sessionStorage.clear();
-  navigate('/');
-  window.location.reload();
-  settokenInvalid(null);
-
+  navigate('/logout');
 };
 function seperateData(data: any) {
   // Initialize arrays for 4 ranges

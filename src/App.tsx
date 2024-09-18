@@ -6,6 +6,9 @@ import Users from './Pages/users';
 import Combobox from './Pages/combobox';
 import Four0Four from './Pages/notFound';
 import UserProfile from './Pages/personalPage';
+import RunLogoutCode from './componets/runLogoutCode';
+import StorysMainPage from './Pages/storysMainPage';
+import AllScrums from './Pages/allScrums';
 
 const App: React.FC = () => {
   return (
@@ -15,7 +18,10 @@ const App: React.FC = () => {
         <Route path="/tasks" Component={Dashboard} />
         <Route path="/users" Component={Users} />
         <Route path="/combobox" Component={Combobox} />
-        <Route path="/:username" element={<UserProfile />} />
+        <Route path="/logout" Component={RunLogoutCode} />
+        <Route path="/projects" element={<AllScrums />} />
+        <Route path="/user/:username" element={<UserProfile />} />
+        <Route path="/story/:userStory" element={<StorysMainPage />} />
         <Route path="*" Component={Four0Four} />
       </Routes>
     </Router>

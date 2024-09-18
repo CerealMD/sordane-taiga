@@ -9,7 +9,8 @@ import ExpandableTable from '../componets/expandedtable';
 import RefreshFuntion from '../componets/refresh';
 import ExpandedtableMobile from '../componets/expandedtableMobile';
 import ErrorPopupProps from '../componets/refresh_popup';
-import { useSpinner } from '../componets/spinnerContext';
+import RunLogoutCode from '../componets/runLogoutCode';
+// import { useSpinner } from '../componets/spinnerContext';
 
 const Combobox: React.FC = () => {
     // let data = [{username: 'Example', count: 0}];
@@ -47,7 +48,7 @@ const Combobox: React.FC = () => {
             } catch (err: any) {
                 console.log(err)
               setError('Failed to fetch data');
-              if(err?.response?.data?.detail == "Given token not valid for any token type"){
+              if(err?.response?.data?.detail === "Given token not valid for any token type"){
                 settokenInvalid(err.message);
                 // RefreshButton();
               }
@@ -64,7 +65,7 @@ const Combobox: React.FC = () => {
               } catch (err: any) {
                 console.log(err)
                 setError('Failed to fetch data');
-                if(err?.response?.data?.detail == "Given token not valid for any token type"){
+                if(err?.response?.data?.detail === "Given token not valid for any token type"){
                   settokenInvalid(err.message);
                   // RefreshButton();
                 }
@@ -144,19 +145,7 @@ const handleYes = async () => {
 };
 
 const handleNo = () => {
-    //Block of text to logout
-    localStorage.removeItem('taiga-token');
-    localStorage.removeItem('refresh-token');
-    localStorage.removeItem('activeUser');
-    localStorage.removeItem('isManager');
-    localStorage.removeItem('username');
-    localStorage.removeItem('id');
-    localStorage.removeItem('bio');
-    sessionStorage.clear();
-  navigate('/');
-  window.location.reload();
-  settokenInvalid(null);
-
+  navigate('/logout');
 };
 function getRoleIndex(roles: string | any[]) {
   return _.findIndex(order, (role: string) => roles.includes(role));
@@ -183,7 +172,7 @@ function seperateData(data: any) {
       // console.log('here', item?.roles[0])
       let test = JSON.stringify(item?.roles[0])
       let check = JSON.stringify(role.value)
-      if (check == test) {
+      if (check === test) {
         role.array.push(item);
         // console.log('here', role.array)
       }

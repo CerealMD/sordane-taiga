@@ -8,7 +8,6 @@ interface Detail {
     assigned_to_extra_info: [];
     username: string;
     url: string;
-    subject: string;
     due_date: string;
     milestone_slug: string;
     status_extra_info: string;
@@ -18,7 +17,9 @@ interface Detail {
     id: number;
     ref: number;
     vacation: string;
-    ourRole: string
+    ourRole: string;
+    due_date_status: string;
+    subject: string;
 }
 
 interface Item {
@@ -30,15 +31,20 @@ interface Item {
   id: number;
   vacation: string
   ourRole: string
+  due_date_status: string;
+    subject: string;
+    due_date: string
+    status: string
+    url: string;
 }
 
 interface ExpandableTableProps {
   data: Item[];
 }
 
-const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
+const StoryExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
   const navigate = useNavigate();
-  // console.log(data)
+  console.log(data)
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
 
   const handleRowClick = (id: number) => {
@@ -91,24 +97,22 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
       <div className='rowParentTH'>
       <div className='data'>User Name</div>
       <div className='data'>Full Name</div>
-      <div className='data'>Number of Tasks</div>
-      <div className='data'>Role</div>
-      <div className={classNames(showAllExtra(-2), 'bigExpandCollapse' )}><button onClick={() => handleRowClick(-1)}>Collapse All</button> </div>
-      <div className={classNames(showExtra(-1),  'bigExpandCollapse')}><button onClick={() => handleRowClick(-1)}>Expand All</button> </div>
-      <div className={classNames(showAllExtra(-2), 'smallExpandCollapse')}><button className='circle minus' onClick={() => handleRowClick(-1)}></button> </div>
-      <div className={classNames(showExtra(-1), 'smallExpandCollapse')}><button className='circle plus' onClick={() => handleRowClick(-1)}></button> </div>
-      </div> 
+      <div className='data'>Subject</div>
+      <div className='data'>Column</div>
+      <div className='data'>Due Date Status</div>
+      <div className='data'>Due Date</div>
+</div> 
     </div>
     <div>
     {data.map((item, index)  => { 
     return <div key={item.id}>
-          <div onClick={() => handleRowClick(item.id)} className={classNames('rowParent', getRowStyle(index), rowSelectedCheck(item.id))}>
+          <div className={classNames('rowParent', getRowStyle(index), rowSelectedCheck(item.id))}>
             <div className='data' style={{ cursor: 'pointer'}}><a onClick={()=> {openUsersPage(`${item.username}`)}}>{item?.username}</a></div>
             <div className='data'> {item?.full_name}</div>
-            <div className='data'>{item?.count}</div>
-            <div className='data'>{item?.ourRole}</div>
-            <div className='smallExpandCollapse'></div>
-            <div className='bigExpandCollapse'></div>
+            <div className='data'><a href={item?.url} target="_blank">{item?.subject}</a></div>
+            <div className='data'>{item?.status}</div>
+            <div className='data'>{item?.due_date_status}</div>
+            <div className='data'>{item?.due_date}</div>
           </div>
           <div className={showExtra(index)} >
           {expandedRowId === item.id && (
@@ -127,5 +131,5 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
       </div>
 
       }
-export default ExpandableTable;
+export default StoryExpandableTable;
 

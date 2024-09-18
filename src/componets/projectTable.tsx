@@ -1,42 +1,23 @@
 // src/components/ExpandableTable.tsx
 import React, { useState } from 'react';
-import NestedTable from './nestedTable';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
-
-interface Detail {
-    assigned_to_extra_info: [];
-    username: string;
-    url: string;
-    subject: string;
-    due_date: string;
-    milestone_slug: string;
-    status_extra_info: string;
-    user_story_extra_info: string;
-    namez: string;
-    storysubject: string;
-    id: number;
-    ref: number;
-    vacation: string;
-    ourRole: string
-}
+import NestedProjectTable from './nestedProjectTable';
 
 interface Item {
-  username: string;
-  count: number;
-  full_name: string;
-  tasks: Detail[];
-  roles: string;
+  name: string;
+  closed: number;
   id: number;
-  vacation: string
-  ourRole: string
+  numOfTasks: number;
+  numOfScrum: number;
+  user_stories: [];
 }
 
 interface ExpandableTableProps {
   data: Item[];
 }
 
-const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
+const ProjectExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
   const navigate = useNavigate();
   // console.log(data)
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
@@ -89,10 +70,8 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
     <div style={{ width: '80%', marginLeft: '10%', paddingBottom: '7px', paddingTop: '10px' }}>    
     <div>
       <div className='rowParentTH'>
-      <div className='data'>User Name</div>
-      <div className='data'>Full Name</div>
-      <div className='data'>Number of Tasks</div>
-      <div className='data'>Role</div>
+      <div className='data2'>Name</div>
+      <div className='data2'># of Scums</div>
       <div className={classNames(showAllExtra(-2), 'bigExpandCollapse' )}><button onClick={() => handleRowClick(-1)}>Collapse All</button> </div>
       <div className={classNames(showExtra(-1),  'bigExpandCollapse')}><button onClick={() => handleRowClick(-1)}>Expand All</button> </div>
       <div className={classNames(showAllExtra(-2), 'smallExpandCollapse')}><button className='circle minus' onClick={() => handleRowClick(-1)}></button> </div>
@@ -103,21 +82,19 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
     {data.map((item, index)  => { 
     return <div key={item.id}>
           <div onClick={() => handleRowClick(item.id)} className={classNames('rowParent', getRowStyle(index), rowSelectedCheck(item.id))}>
-            <div className='data' style={{ cursor: 'pointer'}}><a onClick={()=> {openUsersPage(`${item.username}`)}}>{item?.username}</a></div>
-            <div className='data'> {item?.full_name}</div>
-            <div className='data'>{item?.count}</div>
-            <div className='data'>{item?.ourRole}</div>
+            <div className='data2'>{item?.name}</div>
+            <div className='data2'> {item?.numOfScrum}</div>
             <div className='smallExpandCollapse'></div>
             <div className='bigExpandCollapse'></div>
           </div>
           <div className={showExtra(index)} >
           {expandedRowId === item.id && (
-            <NestedTable details={item.tasks} />
+            <NestedProjectTable details={item.user_stories} />
           )}
           </div>
           <div> 
           {expandedRowId === -1 && (
-            <NestedTable details={item.tasks} />
+            <NestedProjectTable details={item.user_stories} />
           )}
           </div>
           </div>
@@ -127,5 +104,5 @@ const ExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
       </div>
 
       }
-export default ExpandableTable;
+export default ProjectExpandableTable;
 
