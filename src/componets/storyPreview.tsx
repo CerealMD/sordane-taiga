@@ -7,6 +7,8 @@ import RefreshFuntion from '../componets/refresh';
 import '../css/pieChart.css'
 // import NestedTable from '../componets/nestedTable';
 import ProgressBar from '../componets/progressBar';
+import GetRowStyle from '../componets/projectsPageRowStyle';
+import classNames from 'classnames';
 
 const StoryPreview = (selectedItem: any) => {
     const  userStory  = selectedItem['selected']
@@ -49,6 +51,7 @@ useEffect(() => {
                 const sortedItems = [...tempallcurrentTasks].sort((a, b) => {
                       return customOrder.indexOf(a.status) - customOrder.indexOf(b.status);
                     });
+                    console.log(sortedItems)
                 setallcurrentTasks(sortedItems);
                 setPieChartData4Closed(await flattenData4Closed(sortedItems))
                 // console.log(pieChartData)
@@ -91,13 +94,30 @@ const handleYes = async () => {
     <div style={{textAlign: 'center', fontWeight: 'bold', height: '45px'}}>
     {userStory.subject}
     </div>
-{allcurrentTasks.map((task) => (
-        <div key={task.id}>
+    <div >
             <div className='showItems'>
-            <div style={{float: 'left', maxWidth: '60%'}}>
+            <div className='storyName'>
+             Task
+            </div> 
+            <div className='status'>
+             Person
+            </div> 
+            <div className='status'>
+             Status
+            </div>
+            </div>
+            <br/>
+        </div>
+{allcurrentTasks.map((task) => (
+        <div  key={task.id}>
+            <div className={classNames(GetRowStyle(task.due_date), 'showItems')}>
+            <div className='storyName'>
              {task.subject}
             </div> 
-            <div className='status' style={{float: 'left'}}>
+            <div className='status'>
+             {task.username}
+            </div> 
+            <div className='status'>
              {task.status}
             </div>
             </div>

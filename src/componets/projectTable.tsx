@@ -1,10 +1,11 @@
 // src/components/ExpandableTable.tsx
 import React, { useState } from 'react';
-import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import NestedProjectTable from './nestedProjectTable';
 import StoryPreview from './storyPreview';
 import '../css/pieChart.css'
+import GetRowStyle from '../componets/projectsPageRowStyle';
+import classNames from 'classnames';
 
 interface Item {
   name: string;
@@ -54,7 +55,7 @@ const ProjectExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
         setStyle({ width: `32.3%`});
       }
     }
-    console.log(data)
+    // console.log(data)
   };
     return <div style={{marginLeft: '3%', marginTop: '2%', width: '94%'}}>
       <div className='header'>Select a Project</div>
@@ -68,7 +69,15 @@ const ProjectExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
         </option>
       ))}
     </select>
-
+    {selectedItem && (
+<div className='tabelOfContents'>
+  <div className='topStuff'>Legend:</div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('notDueSoon'))}>Not Due Soon</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('DueSoon'))}>Due Soon</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('Due'))}>Due</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('late'))}>Late</span></div>
+</div>
+ )}
     {selectedItem && (
       <div>
       {selectedItem.user_stories.map((project: { id: React.Key | null | undefined; }) => (
