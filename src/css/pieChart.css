@@ -17,3 +17,56 @@
   width: 100%;
 
 }
+.outerbox{
+    margin: 3% 0%;
+    text-align: center;
+    border: 1px solid black;
+    width: 94%;
+    padding: 1%;
+    background-color: burlywood;
+}
+.header{
+    font-size: x-large;
+}
+.boxClickable{
+    cursor: pointer;
+}
+.fakeLink{
+    color: blue;
+    border: 1px black solid;
+    border-radius: 25px;
+    width: 190px;
+    padding: 7px;
+    margin: 10px auto 0px auto;
+}
+.storyPreviewWindow{
+    float: left; 
+    margin-top: 10px;
+    padding-left: 1px;
+    padding-right: 1px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+@media (max-width: 768px) {
+    .storyPreviewWindow{
+        width: 99% !important;
+    }
+}
+.showItems{
+    display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+.status {
+    flex-grow: 1;
+    text-align: right;
+    display: flex;
+  }
+  .status::before {
+    content:'';
+    background: repeating-linear-gradient(to right, currentColor, currentColor 1px, transparent 2px, transparent 4px);
+    height: 1px;
+    flex-grow: 1;
+    display: inline-block;
+    margin-top: 1em;
+  }

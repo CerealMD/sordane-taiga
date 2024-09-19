@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { useNavigate } from 'react-router-dom';
 import NestedProjectTable from './nestedProjectTable';
+import StoryPreview from './storyPreview';
+import '../css/pieChart.css'
 
 interface Item {
   name: string;
@@ -11,6 +13,7 @@ interface Item {
   numOfTasks: number;
   numOfScrum: number;
   user_stories: [];
+  ref: number
 }
 
 interface ExpandableTableProps {
@@ -21,15 +24,8 @@ const ProjectExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
   const navigate = useNavigate();
   // console.log(data)
   const [expandedRowId, setExpandedRowId] = useState<number | null>(null);
-
-  const handleRowClick = (id: number) => {
-    setExpandedRowId(expandedRowId == id ? null : id);
-    rowSelectedCheck(id)
-  };
-  const getRowStyle = (index: number) => {
-    return index % 2 === 0 ? 'rowEven' : 'rowOdd';
-  };
-  
+  const [selectedItem, setSelectedItem] = useState<any>(null);
+  const [style, setStyle] = useState<React.CSSProperties>({});
   const rowSelectedCheck = (id: number | null) => {
     if (
       expandedRowId == id
@@ -41,68 +37,48 @@ const ProjectExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
       return ''
     }
   };
-  const showExtra = (index: number) => {
-    if (
-      expandedRowId == index
-    ){
-      return 'hideExtra'
-    }
-    else{
-      return 'showExtra'
-    }
-  };
-  const showAllExtra = (index: number) => {
-    // console.log(expandedRowId)
-    if (
-      expandedRowId == null || expandedRowId > 0
-    ){
-      return 'hideExtra'
-    }
-    else{
-      return 'showExtra'
-    }
-  };
   function openUsersPage(location: any) {
     navigate(`/user/${location}`)
   }
-  // console.log(data)
-    return <div>
-    <div style={{ width: '80%', marginLeft: '10%', paddingBottom: '7px', paddingTop: '10px' }}>    
-    <div>
-      <div className='rowParentTH'>
-      <div className='data2'>Name</div>
-      <div className='data2'># of Scums</div>
-      <div className={classNames(showAllExtra(-2), 'bigExpandCollapse' )}><button onClick={() => handleRowClick(-1)}>Collapse All</button> </div>
-      <div className={classNames(showExtra(-1),  'bigExpandCollapse')}><button onClick={() => handleRowClick(-1)}>Expand All</button> </div>
-      <div className={classNames(showAllExtra(-2), 'smallExpandCollapse')}><button className='circle minus' onClick={() => handleRowClick(-1)}></button> </div>
-      <div className={classNames(showExtra(-1), 'smallExpandCollapse')}><button className='circle plus' onClick={() => handleRowClick(-1)}></button> </div>
-      </div> 
-    </div>
-    <div>
-    {data.map((item, index)  => { 
-    return <div key={item.id}>
-          <div onClick={() => handleRowClick(item.id)} className={classNames('rowParent', getRowStyle(index), rowSelectedCheck(item.id))}>
-            <div className='data2'>{item?.name}</div>
-            <div className='data2'> {item?.numOfScrum}</div>
-            <div className='smallExpandCollapse'></div>
-            <div className='bigExpandCollapse'></div>
-          </div>
-          <div className={showExtra(index)} >
-          {expandedRowId === item.id && (
-            <NestedProjectTable details={item.user_stories} />
-          )}
-          </div>
-          <div> 
-          {expandedRowId === -1 && (
-            <NestedProjectTable details={item.user_stories} />
-          )}
-          </div>
-          </div>
-        })}
-          </div>
-      </div>
-      </div>
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedId = Number(event.target.value);
+    const item = data.find(item => item.id === selectedId) || null;
+    // console.log(item)
+    setSelectedItem(item);
+    if(item){
+      const widthPercentage = (100 / item.user_stories.length)-1;
+      if(widthPercentage>32){
+        setStyle({ width: `${widthPercentage}%`});
+      }
+      else{
+        setStyle({ width: `32.3%`});
+      }
+    }
+    console.log(data)
+  };
+    return <div style={{marginLeft: '3%', marginTop: '2%', width: '94%'}}>
+      <div className='header'>Select a Project</div>
+    <select onChange={handleChange} defaultValue="">
+      <option value="" disabled>
+        Select an item
+      </option>
+      {data.map(item => (
+        <option key={item.id} value={item.id}>
+          {item.name} : {item.numOfScrum}
+        </option>
+      ))}
+    </select>
 
+    {selectedItem && (
+      <div>
+      {selectedItem.user_stories.map((project: { id: React.Key | null | undefined; }) => (
+        <div className='storyPreviewWindow' style={style} key={project.id}>
+        <StoryPreview selected={project}/>
+        </div>
+      ))}
+      </div>
+    )}
+  </div>
       }
 export default ProjectExpandableTable;
 
