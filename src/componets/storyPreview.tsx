@@ -15,10 +15,10 @@ const StoryPreview = (selectedItem: any) => {
     const token = localStorage.getItem('taiga-token');
     const isManager = localStorage.getItem('isManager');
     let tempallcurrentTasks: any[] = []
+    const _ = require("lodash");
+    const customOrder = ['To Do', 'Concept Art', 'Color Art', 'Review Art', 'Sculpting', 'Review Sculpting', 'Cutting', 'Supporting', 'Approved Sculpting', 'Done', 'Writing', 'Writing Review', 'Editing', 'Approved Writing'];
     const [allcurrentTasks, setallcurrentTasks] = useState<any[]>([]);
-    const [pieChartData4Column, setPieChartData4Column] = useState<{ name: string, value: number ; progress: number;}[]>([]);
     const [pieChartData4Closed, setPieChartData4Closed] = useState<{ name: string; value: number; progress: number; }[]>([]);
-    const [pieChartData4DueDate, setPieChartData4DueDate] = useState<{ name: string; value: number; progress: number;}[]>([]);
 useEffect(() => {  
     // console.log(userStory)
         const fetchData = async () => {
@@ -44,14 +44,13 @@ useEffect(() => {
                   task.status = task?.status_extra_info?.name
                   task.url = 'https://tree.taiga.io/project/sordane-publishing/task/'+ task.ref
                   tempallcurrentTasks.push(task)
-                //   console.log(task)
                  }
                 });
-                console.log(tempallcurrentTasks)
-                setallcurrentTasks(tempallcurrentTasks)
-                setPieChartData4Column( await flattenData4Column(tempallcurrentTasks))
-                setPieChartData4Closed(await flattenData4Closed(tempallcurrentTasks))
-                setPieChartData4DueDate(await flattenData4DueDate(tempallcurrentTasks))
+                const sortedItems = [...tempallcurrentTasks].sort((a, b) => {
+                      return customOrder.indexOf(a.status) - customOrder.indexOf(b.status);
+                    });
+                setallcurrentTasks(sortedItems);
+                setPieChartData4Closed(await flattenData4Closed(sortedItems))
                 // console.log(pieChartData)
               } catch (err: any) {
                 console.log(err)
@@ -115,25 +114,6 @@ const handleYes = async () => {
 
 export default StoryPreview;
 
-
-
-function flattenData4Column(allcurrentTasks: any[]) {
-  // Transform data to count occurrences
-const countData = allcurrentTasks.reduce((acc, item) => {
-  acc[item.status_extra_info.name] = (acc[item.status_extra_info.name] || 0) + 1;
-  return acc;
-}, {});
-// Convert to array format for pie chart
-const pieChartData = Object.keys(countData).map(key => ({
-  name: key,
-  value: countData[key],
-  progress: Math.round((countData[key]/allcurrentTasks.length)*100)
-}));
-
-return pieChartData
-}
-
-
 function flattenData4Closed(allcurrentTasks: any[]) {
 // console.log(allcurrentTasks)
 
@@ -147,24 +127,8 @@ const countData = allcurrentTasks.reduce((acc, item) => {
 const pieChartData = Object.keys(countData).map(key => ({
   name: key,
   value: countData[key],
-  progress: Math.round((countData[key]/allcurrentTasks.length)*100)
+  progress: Math.round(((allcurrentTasks.length-countData[key])/allcurrentTasks.length)*100)
 }));
 // console.log(pieChartData)
-return pieChartData
-}
-function flattenData4DueDate(allcurrentTasks: any[]) {
-  // Transform data to count occurrences
-const countData = allcurrentTasks.reduce((acc, item) => {
-  acc[item.due_date_status] = (acc[item.due_date_status] || 0) + 1;
-  return acc;
-}, {});
-
-// Convert to array format for pie chart
-const pieChartData = Object.keys(countData).map(key => ({
-  name: key,
-  value: countData[key],
-  progress: Math.round((countData[key]/allcurrentTasks.length)*100)
-}));
-
 return pieChartData
 }

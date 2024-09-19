@@ -46,6 +46,7 @@
     padding-right: 1px;
     border: 1px solid black;
     border-radius: 5px;
+    margin-bottom: 10px;
 }
 @media (max-width: 768px) {
     .storyPreviewWindow{
