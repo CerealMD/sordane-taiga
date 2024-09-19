@@ -13,7 +13,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
           <div className="progress-fill" style={{ width: `0`, float:'left' }}>
             
           </div>
-          <span style={{position: 'absolute', marginLeft:  `0`, width: '100%', textAlign: 'center', fontSize:'14px'}} >Total Completed: 100%</span>
+          <span style={{position: 'absolute', marginLeft:  `0`, width: '100%', textAlign: 'center', fontSize:'14px'}} >Total Completed: 0%</span>
         </div>
         )
     }

@@ -31,7 +31,7 @@ const DataTable: React.FC = () => {
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p style={{textAlign: 'center'}}>{error}</p>;
 
   return (
     <div>
