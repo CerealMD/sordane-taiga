@@ -10,3 +10,10 @@ background-color: #ff540099;
 .late{
     background-color: #fd95af;
 }
+.closed{
+    background-color: #95adfd;
+}
+.borderRadius25{
+    border-radius: 25px;
+    padding: 0 4px;
+}

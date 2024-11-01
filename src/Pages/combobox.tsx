@@ -150,6 +150,113 @@ const handleNo = () => {
 function getRoleIndex(roles: string | any[]) {
   return _.findIndex(order, (role: string) => roles.includes(role));
 }
+function refreshContent() {
+  const fetchData = async () => {
+    // console.log(artistData)
+    const token = localStorage.getItem('taiga-token');
+    // console.log(token)
+    if (token === undefined || token === null || isManager !== 'Manager') {
+    //   console.log('not logged in')
+      navigate('/');
+      return;
+    }
+    try {
+      const response = await axios.get('https://api.taiga.io/api/v1/users?project=1575333', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "x-disable-pagination": 'True'
+        },
+      });
+    uData = JSON.stringify(response.data)
+    compareArrays();
+    } catch (err: any) {
+        console.log(err)
+      setError('Failed to fetch data');
+      if(err?.response?.data?.detail === "Given token not valid for any token type"){
+        settokenInvalid(err.message);
+        // RefreshButton();
+      }
+    }
+    try {
+        const response = await axios.get('https://api.taiga.io/api/v1/tasks?project=1575333', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "x-disable-pagination": 'True'
+          },
+        });
+        tData = JSON.stringify(response.data)
+        compareArrays();
+      } catch (err: any) {
+        console.log(err)
+        setError('Failed to fetch data');
+        if(err?.response?.data?.detail === "Given token not valid for any token type"){
+          settokenInvalid(err.message);
+          // RefreshButton();
+        }
+      }
+};
+fetchData()
+function compareArrays() {
+if(uData){
+let userData = JSON.parse(uData)
+// console.log('65',data)
+// console.log('66',userData)
+if(artistData && artistData.length >= userData.length){
+    return
+}
+if(tData){
+let taskData = JSON.parse(tData)
+// console.log(userData)
+// console.log(taskData)
+try{
+    // console.log(userData.length)
+    
+    for(let i=0; i< userData.length; i++) {
+        userData[i].count = 0;
+        userData[i].tasks = [];
+        // console.log(user)
+        userData[i].roles.forEach((role: any) => {
+          order.forEach((namedRole: any) => {
+            if (role === namedRole){
+              userData[i].ourRole = namedRole
+            }
+          });
+        });
+        for(let j=0; j< taskData.length; j++) {
+
+            if (userData[i].username === taskData[j]?.assigned_to_extra_info?.username && !taskData[j]?.is_closed){
+                userData[i].count++
+                taskData[j].username =taskData[j].assigned_to_extra_info.username
+                taskData[j].namez =taskData[j].status_extra_info?.name
+                taskData[j].storysubject =taskData[j].user_story_extra_info?.subject
+                taskData[j].url= 'https://tree.taiga.io/project/sordane-publishing/task/' + taskData[j].ref 
+                userData[i].tasks.push(taskData[j]); 
+                if(userData[i].bio === "I am NOT Avalible for Work"){
+                  userData[i].vacation = 'Not Open'
+                }
+                else {
+                  userData[i].vacation = 'Open'
+                }
+            }
+        };
+        setartistData(userData);
+    };
+    const copyArray = [...userData]; 
+    copyArray.sort((a,b) => (a.roles[0] > b.roles[0]) ? 1 : ((b.roles[0] > a.roles[0]) ? -1 : 0))
+    // console.log(copyArray)
+    const roleSorted = _.sortBy(copyArray, (obj: { roles: string | any[]; }) => getRoleIndex(obj.roles));
+    const groupedByRole = _.groupBy(roleSorted, (obj: { roles: any; }) => _.find(obj.roles, (role: any) => order.includes(role)));
+    const sortedByIdWithinGroups = _.mapValues(groupedByRole, (group: any) => _.sortBy(group, 'count'));
+    const finalSortedArray = _.flatten(_.values(sortedByIdWithinGroups));
+    seperateData(finalSortedArray);
+    // console.log(finalSortedArray)
+    // setartistData(finalSortedArray); 
+}
+catch{
+    console.log('catch',artistData)
+}}}
+}
+}
 function seperateData(data: any) {
   // Initialize arrays for 4 ranges
   const Artist: any[] = [];
@@ -165,12 +272,17 @@ function seperateData(data: any) {
   ];
 
   // Separate data into ranges
-  data.forEach((item: { roles: { array: any[]; }[]; }) => {
+  data.forEach((item: { roles: { array: any[]}[], ourRole: any }) => {
     roles.forEach((role) => {
+      // order.forEach((namedRole: any) => {
+      //   if (role === namedRole){
+      //     roles.ourRole = namedRole
+      //   }
+      // });
       // console.log('here', role.value)
-      // console.log('here', item)
+      console.log('here', item.ourRole)
       // console.log('here', item?.roles[0])
-      let test = JSON.stringify(item?.roles[0])
+      let test = JSON.stringify(item?.ourRole)
       let check = JSON.stringify(role.value)
       if (check === test) {
         role.array.push(item);
@@ -178,6 +290,7 @@ function seperateData(data: any) {
       }
     });
   });
+  console.log(data)
   setartistData(Artist)
   setsculpterData(Sculpting)
   setwrittingData(Writing)
@@ -189,10 +302,11 @@ function seperateData(data: any) {
         <ErrorPopupProps message={tokenInvalid}  onYes={handleYes}
         onNo={handleNo}/>
       )}
-        <h1 className='headerStyle'>Combo Box</h1>
+        <h1 className='headerStyle'>Combo Box </h1> 
       <NavBar />
       {error && <p>{error}</p>}
       <div>
+      <div style={{marginLeft: '86%',width: '65%',display: 'block', cursor: 'pointer'}} onClick={refreshContent}>&#x21bb;</div>
       <div className='desktop-only'>
       <ExpandableTable data={artistData} />
       <ExpandableTable data={scuplterData} />

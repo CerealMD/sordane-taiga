@@ -79,7 +79,7 @@ const LoginContainer: React.FC = () => {
         navigate('/combobox');
       }
       else{
-        let navTool = '/' + response.data.username
+        let navTool = '/user/' + response.data.username
         navigate(navTool);
       }
         return response.data.token;

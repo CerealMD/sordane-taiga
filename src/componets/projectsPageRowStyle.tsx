@@ -2,19 +2,26 @@
 import React from 'react';
 import axios from 'axios'
 
-const getRowStyle = (status: string) => {
+const getRowStyle = (status: string, is_closed:boolean) => {
   // console.log(status)
-  if(status === 'notDueSoon'){
-    return 'notDueSoon';
+  // console.log(is_closed)
+  if(is_closed){
+    return 'closed';
+  }
+  else if(status === 'true'){
+    return 'closed borderRadius25';
+  }
+  else if(status === 'notDueSoon'){
+    return 'notDueSoon borderRadius25';
   }
   else if(status === 'DueSoon'){
-    return 'DueSoon';
+    return 'DueSoon borderRadius25';
   }
   else if(status === 'Due'){
-    return 'Due';
+    return 'Due borderRadius25';
   }
   else if(status === 'late'){
-    return 'late';
+    return 'late borderRadius25';
   }
   else if (status){
   const today = new Date();

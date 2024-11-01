@@ -110,7 +110,7 @@ const handleYes = async () => {
         </div>
 {allcurrentTasks.map((task) => (
         <div  key={task.id}>
-            <div className={classNames(GetRowStyle(task.due_date), 'showItems')}>
+            <div className={classNames(GetRowStyle(task.due_date, task.is_closed), 'showItems')}>
             <div className='storyName'>
              {task.subject}
             </div> 

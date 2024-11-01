@@ -29,7 +29,7 @@ const ReloadScreenMobile: React.FC = () => {
         navigate('/combobox');
       }
       else{
-        let navTool = '/' + localStorage.getItem('username')
+        let navTool = '/user/' + localStorage.getItem('username')
         navigate(navTool);
       }
       return

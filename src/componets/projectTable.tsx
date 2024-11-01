@@ -72,10 +72,11 @@ const ProjectExpandableTable: React.FC<ExpandableTableProps> = ({ data }) => {
     {selectedItem && (
 <div className='tabelOfContents'>
   <div className='topStuff'>Legend:</div>
-  <div className='topStuff'><span className={classNames(GetRowStyle('notDueSoon'))}>Not Due Soon</span></div>
-  <div className='topStuff'><span className={classNames(GetRowStyle('DueSoon'))}>Due Soon</span></div>
-  <div className='topStuff'><span className={classNames(GetRowStyle('Due'))}>Due</span></div>
-  <div className='topStuff'><span className={classNames(GetRowStyle('late'))}>Late</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('notDueSoon', false))}>Not Due Soon</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('DueSoon', false))}>Due Soon</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('Due', false))}>Due</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('late', false))}>Late</span></div>
+  <div className='topStuff'><span className={classNames(GetRowStyle('true', false))}>Closed</span></div>
 </div>
  )}
     {selectedItem && (
